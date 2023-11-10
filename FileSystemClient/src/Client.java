@@ -4,6 +4,7 @@ import java.util.Scanner;
 
 public class Client {
     private Socket socket;
+    private FileStruct fileStruct;
     private Scanner scanner;
     private BufferedInputStream bis;
     private BufferedOutputStream bos;
@@ -13,6 +14,7 @@ public class Client {
     private DataOutputStream dos;
     private BufferedReader br;
     private BufferedWriter bw;
+    private ObjectInputStream ois;
     private boolean wait = false;
 
     public Client(){
@@ -26,6 +28,11 @@ public class Client {
             bos = new BufferedOutputStream(socket.getOutputStream());
             br = new BufferedReader(new InputStreamReader(socket.getInputStream())); // 문자열 입출력
             bw = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
+            ois = new ObjectInputStream(socket.getInputStream());
+
+            fileStruct = (FileStruct) ois.readObject();
+            System.out.println("파일 구조 수신 완료");
+            fileStruct.printDir();
 
             while (true){
 
@@ -33,19 +40,20 @@ public class Client {
 
                 dos.writeInt(mode);
                 dos.flush();
-                System.out.println("파일 모드 전송");
+                System.out.println("파일 모드 전송 완료");
 
                 File file = new File("./Files/" + "다운로드.jfif");
                 wait = dis.readBoolean();
                 bw.write("다운로드.jfif" + "\n");
                 bw.flush();
-                System.out.println("파일 이름 전송");
+                System.out.println("파일 이름 전송 완료");
                 wait = false;
+
                 long fileSize = file.length();
 
                 wait = dis.readBoolean();
                 dos.writeLong(fileSize);
-                System.out.println("파일 사이즈 전송");
+                System.out.println("파일 사이즈 전송 완료");
                 wait = false;
 
                 fis = new FileInputStream(file);
@@ -56,16 +64,21 @@ public class Client {
                     dos.write(buffer, 0, read);
                 }
                 dos.flush();
-                System.out.println("파일 전송");
+                System.out.println("파일 전송 완료");
                 wait = false;
 
-                dos.writeInt(3);
+//                fileStruct = (FileStruct) ois.readObject();
+//                fileStruct.printDir();
+
+                dos.writeInt(10);
                 System.out.println("종료 코드 전송 완료");
                 break;
 
             }
-        }catch (IOException e){
+        } catch (IOException e){
             System.out.println("파일 전송 실패");
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
         }
     }
 }
