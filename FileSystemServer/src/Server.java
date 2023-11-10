@@ -1,6 +1,7 @@
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.SocketException;
 import java.util.Scanner;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -38,6 +39,7 @@ class ServerThread extends Thread{
     private int clientNum;
     private Socket socket;
     private File file;
+    private String address = "./Files/";
     private BufferedInputStream bis;
     private BufferedOutputStream bos;
     private FileInputStream fis;
@@ -46,6 +48,7 @@ class ServerThread extends Thread{
     private DataOutputStream dos;
     private BufferedReader br;
     private BufferedWriter bw;
+    private boolean wait = true;
 
     public ServerThread(Socket socket,int clientNum){
         this.clientNum = clientNum;
@@ -68,7 +71,7 @@ class ServerThread extends Thread{
             try {
                 mode = dis.readInt();
             }catch(IOException e){
-                mode = 0;
+                mode = 3;
             }
             switch (mode){
                 case 1:
@@ -77,21 +80,45 @@ class ServerThread extends Thread{
                 case 2:
                     fileOutputMode();
                     break;
+                case 3:
+                    System.out.println("Client" + clientNum + ": 종료");
+                    return;
                 default:
-                    System.out.println("Client"+clientNum+ ": 잘못된 입력입니다.");
+                    System.out.println("Client" + clientNum + ": 잘못된 입력입니다.");
             }
         }
     }
+    // 1.파일 이름 수신
+    // 2.파일 사이즈 수신
+    // 3.파일 수신
+    // 4.로컬 저장소에 파일 쓰기
     public void fileInputMode() {
         try { // 파일 수신
-            String fileName = br.readLine(); // 파일 이름 수신
-            file = new File("../Files"+fileName); // 파일 생성
+            boolean isFileCreate;
+            dos.writeBoolean(wait);
+            String fileName = br.readLine(); // 1.파일 이름 수신
+            System.out.println("ClientNum" + clientNum + ": 파일 이름 수신 완료");
+            file = new File(address + fileName); // 파일 생성
             if(!file.exists()){
-                file.createNewFile();
+                isFileCreate = file.createNewFile();
+                System.out.println("ClientNum" + clientNum + ": 파일 생성 완료");
             }
-            long fileSize = dis.readLong(); // 파일 사이즈 수신
+            dos.writeBoolean(wait);
+            long fileSize = dis.readLong(); // 2.파일 사이즈 수신
+            System.out.println("ClientNum" + clientNum + ": 파일 사이즈 수신 완료");
             byte[] fileBuf = new byte[(int) fileSize]; // 파일 버퍼 생성
-        }catch (IOException e) {}
+
+            dos.writeBoolean(wait);
+            dis.readFully(fileBuf); // 3.fileBuf에 파일 수신
+            System.out.println("ClientNum" + clientNum + ": 파일 수신 완료");
+
+            fos = new FileOutputStream(address + fileName); // 저장할 파일 로컬 저장소에 생성
+            fos.write(fileBuf); // 로컬 저장소에 파일 쓰기
+            System.out.println("ClientNum" + clientNum + ": 파일 저장 완료");
+
+        }catch (IOException e) {
+            System.out.println("ClientNum" + clientNum + ": 파일 생성에 실패했습니다.");
+        }
 
 
 

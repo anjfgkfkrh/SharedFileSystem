@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/FileSystemClient/FileSystemClient.iml" filepath="$PROJECT_DIR$/FileSystemClient/FileSystemClient.iml" />
+      <module fileurl="file://$PROJECT_DIR$/FileSystemServer/FileSystemServer.iml" filepath="$PROJECT_DIR$/FileSystemServer/FileSystemServer.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/SharedFileSystem.iml" filepath="$PROJECT_DIR$/.idea/SharedFileSystem.iml" />
+    </modules>
+  </component>
+</project>
