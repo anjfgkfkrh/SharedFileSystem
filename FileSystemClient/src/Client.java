@@ -36,7 +36,7 @@ public class Client {
 
             while (true){
 
-                int mode = 1;
+                int mode = 3;
 
                 dos.writeInt(mode);
                 dos.flush();
@@ -49,26 +49,34 @@ public class Client {
                 System.out.println("파일 이름 전송 완료");
                 wait = false;
 
-                long fileSize = file.length();
+//                long fileSize = file.length();
+//
+//                wait = dis.readBoolean();
+//                dos.writeLong(fileSize);
+//                System.out.println("파일 사이즈 전송 완료");
+//                wait = false;
+//
+//                fis = new FileInputStream(file);
+//                byte[] buffer = new byte[4096];
+//                int read;
+//                wait = dis.readBoolean();
+//                while ((read = fis.read(buffer)) != -1) {
+//                    dos.write(buffer, 0, read);
+//                }
+//                dos.flush();
+//                System.out.println("파일 전송 완료");
+//                wait = false;
 
-                wait = dis.readBoolean();
-                dos.writeLong(fileSize);
-                System.out.println("파일 사이즈 전송 완료");
-                wait = false;
-
-                fis = new FileInputStream(file);
-                byte[] buffer = new byte[4096];
-                int read;
-                wait = dis.readBoolean();
-                while ((read = fis.read(buffer)) != -1) {
-                    dos.write(buffer, 0, read);
+                try {
+                    fileStruct = (FileStruct) ois.readObject();
+                    fileStruct.printDir();
+                } catch (EOFException e) {
+                    System.out.println("서버로부터 더 이상 데이터를 수신받지 못함");
+                } catch (ClassNotFoundException e) {
+                    System.out.println("클래스 정의를 찾을 수 없음");
+                } catch (IOException e) {
+                    System.out.println("네트워크 오류 발생");
                 }
-                dos.flush();
-                System.out.println("파일 전송 완료");
-                wait = false;
-
-//                fileStruct = (FileStruct) ois.readObject();
-//                fileStruct.printDir();
 
                 dos.writeInt(10);
                 System.out.println("종료 코드 전송 완료");

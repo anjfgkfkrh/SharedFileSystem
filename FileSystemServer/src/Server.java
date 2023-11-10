@@ -60,7 +60,6 @@ class ServerThread extends Thread{
         try {
             sm.oos().writeObject(fileStruct);
             sm.oos().reset();
-            sm.oos().flush();
             System.out.println("ClientNum" + clientNum + ": 파일 구조 송신 완료");
         }catch (IOException e){}
     }
@@ -75,7 +74,8 @@ class ServerThread extends Thread{
                         System.out.println("ClientNum" + clientNum + ": 파일 수신 모드");
                         fim.fileInput();
                         fileStruct.refresh();
-//                        sm.oos().writeObject(fileStruct);
+                        sm.oos().writeObject(fileStruct);
+                        sm.oos().reset();
                         System.out.println("ClientNum" + clientNum + ": 파일 구조 재송신 완료");
                         break;
                     case 2:
@@ -87,7 +87,8 @@ class ServerThread extends Thread{
                         System.out.println("ClientNum" + clientNum + ": 파일 삭제 모드");
                         fim.fileDelete();
                         fileStruct.refresh();
-//                        sm.oos().writeObject(fileStruct);
+                        sm.oos().writeObject(fileStruct);
+                        sm.oos().reset();
                         System.out.println("ClientNum" + clientNum + ": 파일 구조 재송신 완료");
                     case 10:
                         System.out.println("Client" + clientNum + ": 정상 종료");
