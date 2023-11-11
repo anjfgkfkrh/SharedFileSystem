@@ -54,4 +54,9 @@ public class StreamManager {
     public ObjectOutputStream oos(){
         return objectOutputStream;
     }
+
+    public void ObjectOutput(Object obj) throws IOException {
+        objectOutputStream.writeObject(obj);
+        objectOutputStream.reset();
+    }
 }

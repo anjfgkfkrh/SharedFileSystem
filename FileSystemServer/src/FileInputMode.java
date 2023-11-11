@@ -1,8 +1,6 @@
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.List;
 
 public class FileInputMode {
     private StreamManager sm;
@@ -23,6 +21,8 @@ public class FileInputMode {
             sm.dos().writeBoolean(wait);
             String fileName = sm.br().readLine(); // 1.파일 이름 수신
             System.out.println("ClientNum" + clientNum + ": 파일 이름 수신 완료");
+            System.out.println("ClientNum" + clientNum + ": 파일 이름 " + fileName);
+            System.out.println("ClientNum" + clientNum + ": 파일 주소 " + address + fileName);
             file = new File(address + fileName); // 파일 생성
             if(!file.exists()){
                 isFileCreate = file.createNewFile();
@@ -55,6 +55,8 @@ public class FileInputMode {
             sm.dos().writeBoolean(wait);
             String fileName = sm.br().readLine(); // 1.파일 이름 수신
             System.out.println("ClientNum" + clientNum + ": 파일 이름 수신 완료");
+            System.out.println("ClientNum" + clientNum + ": 파일 이름 " + fileName);
+            System.out.println("ClientNum" + clientNum + ": 파일 주소 " + address + fileName);
             file = new File(address + fileName); // 파일 생성
             isFileDelete = file.delete();
             if(isFileDelete)

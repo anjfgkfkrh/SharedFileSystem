@@ -58,8 +58,7 @@ class ServerThread extends Thread{
         sm = new StreamManager(socket);
         fim = new FileInputMode(sm,clientNum);
         try {
-            sm.oos().writeObject(fileStruct);
-            sm.oos().reset();
+            sm.ObjectOutput((Object) fileStruct);
             System.out.println("ClientNum" + clientNum + ": 파일 구조 송신 완료");
         }catch (IOException e){}
     }
@@ -74,22 +73,24 @@ class ServerThread extends Thread{
                         System.out.println("ClientNum" + clientNum + ": 파일 수신 모드");
                         fim.fileInput();
                         fileStruct.refresh();
-                        sm.oos().writeObject(fileStruct);
-                        sm.oos().reset();
-                        System.out.println("ClientNum" + clientNum + ": 파일 구조 재송신 완료");
+//                        sm.ObjectOutput((Object) fileStruct);
+//                        System.out.println("ClientNum" + clientNum + ": 파일 구조 재송신 완료");
                         break;
                     case 2:
                         System.out.println("ClientNum" + clientNum + ": 파일 송신 모드");
                         fileOutputMode();
-                        System.out.println("ClientNum" + clientNum + ": 파일 구조 재송신 완료");
+//                        System.out.println("ClientNum" + clientNum + ": 파일 구조 재송신 완료");
                         break;
                     case 3:
                         System.out.println("ClientNum" + clientNum + ": 파일 삭제 모드");
                         fim.fileDelete();
                         fileStruct.refresh();
-                        sm.oos().writeObject(fileStruct);
-                        sm.oos().reset();
+//                        sm.ObjectOutput((Object) fileStruct);
+//                        System.out.println("ClientNum" + clientNum + ": 파일 구조 재송신 완료");
+                    case 4:
+                        sm.ObjectOutput((Object) fileStruct);
                         System.out.println("ClientNum" + clientNum + ": 파일 구조 재송신 완료");
+                        break;
                     case 10:
                         System.out.println("Client" + clientNum + ": 정상 종료");
                         return;

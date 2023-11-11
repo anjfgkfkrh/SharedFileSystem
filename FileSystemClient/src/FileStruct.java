@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class FileStruct implements Serializable {
-    private List<File> files;
+    private List<FileString> files;
     private List<FileStruct> directories;
     private String path;
     private String name;
@@ -26,7 +26,7 @@ public class FileStruct implements Serializable {
             if (entries != null) {
                 for (File entry : entries) {
                     if (entry.isFile()) {
-                        files.add(entry);
+                        files.add(new FileString(entry.getName(),entry.getPath()));
                     } else if (entry.isDirectory()) {
                         directories.add(new FileStruct(entry.getPath(), entry.getName() , depth + 1));
                     }
@@ -35,7 +35,6 @@ public class FileStruct implements Serializable {
         } else {
             System.out.println("폴더가 존재하지 않습니다.");
         }
-
     }
 
     public void refresh(){
@@ -49,7 +48,7 @@ public class FileStruct implements Serializable {
             if (entries != null) {
                 for (File entry : entries) {
                     if (entry.isFile()) {
-                        files.add(entry);
+                        files.add(new FileString(entry.getName(),entry.getPath()));
                     } else if (entry.isDirectory()) {
                         directories.add(new FileStruct(entry.getPath(), entry.getName() , depth + 1));
                     }
@@ -69,7 +68,7 @@ public class FileStruct implements Serializable {
             System.out.println(dir.getName());
             dir.printDir();
         }
-        for(File file : files){
+        for(FileString file : files){
             for(int i=0; i<depth; i++) {
                 System.out.print("|  ");
             }
@@ -84,5 +83,23 @@ public class FileStruct implements Serializable {
     }
     public String getPath(){
         return path;
+    }
+
+    class FileString implements Serializable{
+        private String name;
+        private String path;
+
+        public FileString(String name, String path){
+            this.name = name;
+            this.path = path;
+        }
+
+        public String getName(){
+            return this.name;
+        }
+
+        public String getPath(){
+            return this.path;
+        }
     }
 }

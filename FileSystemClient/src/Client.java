@@ -16,6 +16,7 @@ public class Client {
     private BufferedWriter bw;
     private ObjectInputStream ois;
     private boolean wait = false;
+    private File file;
 
     public Client(){
         try{
@@ -34,53 +35,81 @@ public class Client {
             System.out.println("파일 구조 수신 완료");
             fileStruct.printDir();
 
+            int mode =0;
+            String filename;
             while (true){
 
-                int mode = 3;
+                System.out.println("모드를 입력하시오");
+                mode = scanner.nextInt();
+                scanner.nextLine();
 
                 dos.writeInt(mode);
                 dos.flush();
                 System.out.println("파일 모드 전송 완료");
 
-                File file = new File("./Files/" + "다운로드.jfif");
-                wait = dis.readBoolean();
-                bw.write("다운로드.jfif" + "\n");
-                bw.flush();
-                System.out.println("파일 이름 전송 완료");
-                wait = false;
+                switch (mode) {
+                    case 1:
+                        System.out.println("파일 이름을 입력하십시오");
+                        filename = scanner.nextLine();
+                        scanner.nextLine();
 
-//                long fileSize = file.length();
-//
-//                wait = dis.readBoolean();
-//                dos.writeLong(fileSize);
-//                System.out.println("파일 사이즈 전송 완료");
-//                wait = false;
-//
-//                fis = new FileInputStream(file);
-//                byte[] buffer = new byte[4096];
-//                int read;
-//                wait = dis.readBoolean();
-//                while ((read = fis.read(buffer)) != -1) {
-//                    dos.write(buffer, 0, read);
-//                }
-//                dos.flush();
-//                System.out.println("파일 전송 완료");
-//                wait = false;
+                        file = new File("./Files/" + filename);
+                        wait = dis.readBoolean();
+                        bw.write(filename + "\n");
+                        bw.flush();
+                        System.out.println("파일 이름 전송 완료");
+                        wait = false;
 
-                try {
-                    fileStruct = (FileStruct) ois.readObject();
-                    fileStruct.printDir();
-                } catch (EOFException e) {
-                    System.out.println("서버로부터 더 이상 데이터를 수신받지 못함");
-                } catch (ClassNotFoundException e) {
-                    System.out.println("클래스 정의를 찾을 수 없음");
-                } catch (IOException e) {
-                    System.out.println("네트워크 오류 발생");
+                        long fileSize = file.length();
+
+                        wait = dis.readBoolean();
+                        dos.writeLong(fileSize);
+                        System.out.println("파일 사이즈 전송 완료");
+                        wait = false;
+
+                        fis = new FileInputStream(file);
+                        byte[] buffer = new byte[4096];
+                        int read;
+                        wait = dis.readBoolean();
+                        while ((read = fis.read(buffer)) != -1) {
+                            dos.write(buffer, 0, read);
+                        }
+                        dos.flush();
+                        System.out.println("파일 전송 완료");
+                        wait = false;
+                        break;
+                    case 3:
+                        System.out.println("파일 이름을 입력하십시오");
+                        filename = scanner.nextLine();
+                        scanner.nextLine();
+
+                        file = new File("./Files/" + filename);
+                        wait = dis.readBoolean();
+                        bw.write(filename + "\n");
+                        bw.flush();
+                        System.out.println("파일 이름 전송 완료");
+                        wait = false;
+                       break;
+                    case 4:
+                        try {
+                            fileStruct = (FileStruct) ois.readObject();
+                            fileStruct.printDir();
+                        } catch (EOFException e) {
+                            System.out.println("서버로부터 더 이상 데이터를 수신받지 못함");
+                        } catch (ClassNotFoundException e) {
+                            System.out.println("클래스 정의를 찾을 수 없음");
+                        } catch (IOException e) {
+                            System.out.println(e);
+                            System.out.println("네트워크 오류 발생");
+                        }
+                        break;
+                    case 10:
+                        dos.writeInt(10);
+                        System.out.println("종료 코드 전송 완료");
+                        return;
                 }
 
-                dos.writeInt(10);
-                System.out.println("종료 코드 전송 완료");
-                break;
+
 
             }
         } catch (IOException e){
