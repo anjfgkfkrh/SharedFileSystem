@@ -8,14 +8,14 @@ public class FileInputMode {
     private File file;
     private boolean wait = true;
     private int clientNum;
-    private String address = "./Files/";
+    private String address = "../Files/";
 
-    public FileInputMode(StreamManager sm, int clientNum){
+    public FileInputMode(StreamManager sm, int clientNum) {
         this.sm = sm;
         this.clientNum = clientNum;
     }
 
-    public void fileInput(){
+    public void fileInput() {
         try { // 파일 수신
             boolean isFileCreate;
             sm.dos().writeBoolean(wait);
@@ -24,9 +24,9 @@ public class FileInputMode {
             System.out.println("ClientNum" + clientNum + ": 파일 이름 " + fileName);
             System.out.println("ClientNum" + clientNum + ": 파일 주소 " + address + fileName);
             file = new File(address + fileName); // 파일 생성
-            if(!file.exists()){
+            if (!file.exists()) {
                 isFileCreate = file.createNewFile();
-                if(isFileCreate)
+                if (isFileCreate)
                     System.out.println("ClientNum" + clientNum + ": 파일 생성 완료");
                 else
                     System.out.println("ClientNum" + clientNum + ": 파일 생성 실패");
@@ -44,12 +44,12 @@ public class FileInputMode {
             fos.write(fileBuf); // 로컬 저장소에 파일 쓰기
             System.out.println("ClientNum" + clientNum + ": 파일 저장 완료");
 
-        }catch (IOException e) {
+        } catch (IOException e) {
             System.out.println("ClientNum" + clientNum + ": 파일 수신에 실패했습니다.");
         }
     }
 
-    public void fileDelete(){
+    public void fileDelete() {
         try {
             boolean isFileDelete;
             sm.dos().writeBoolean(wait);
@@ -59,10 +59,11 @@ public class FileInputMode {
             System.out.println("ClientNum" + clientNum + ": 파일 주소 " + address + fileName);
             file = new File(address + fileName); // 파일 생성
             isFileDelete = file.delete();
-            if(isFileDelete)
+            if (isFileDelete)
                 System.out.println("ClientNum" + clientNum + ": 파일 삭제 완료");
             else
                 System.out.println("ClientNum" + clientNum + ": 파일 삭제 완료");
-        }catch (IOException e){}
+        } catch (IOException e) {
+        }
     }
 }

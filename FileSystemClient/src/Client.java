@@ -37,6 +37,7 @@ public class Client {
 
             int mode =0;
             String filename;
+
             while (true){
 
                 System.out.println("모드를 입력하시오");
@@ -51,7 +52,6 @@ public class Client {
                     case 1:
                         System.out.println("파일 이름을 입력하십시오");
                         filename = scanner.nextLine();
-                        scanner.nextLine();
 
                         file = new File("./Files/" + filename);
                         wait = dis.readBoolean();
@@ -81,7 +81,6 @@ public class Client {
                     case 3:
                         System.out.println("파일 이름을 입력하십시오");
                         filename = scanner.nextLine();
-                        scanner.nextLine();
 
                         file = new File("./Files/" + filename);
                         wait = dis.readBoolean();
@@ -96,15 +95,17 @@ public class Client {
                             fileStruct.printDir();
                         } catch (EOFException e) {
                             System.out.println("서버로부터 더 이상 데이터를 수신받지 못함");
+                            return;
                         } catch (ClassNotFoundException e) {
                             System.out.println("클래스 정의를 찾을 수 없음");
+                            return;
                         } catch (IOException e) {
                             System.out.println(e);
                             System.out.println("네트워크 오류 발생");
+                            return;
                         }
                         break;
                     case 10:
-                        dos.writeInt(10);
                         System.out.println("종료 코드 전송 완료");
                         return;
                 }
