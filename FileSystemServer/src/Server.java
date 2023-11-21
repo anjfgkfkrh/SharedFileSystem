@@ -49,7 +49,7 @@ class ServerThread extends Thread {
     private Socket socket;
     private FileStruct fileStruct;
     private File file;
-    private String address = "./Files/";
+    private String address = "../Files/";
     private boolean wait = true;
     private FileInputStream fis;
     private FileOutputStream fos;
@@ -61,7 +61,7 @@ class ServerThread extends Thread {
         this.socket = socket;
         this.fileStruct = fileStruct;
         sm = new StreamManager(socket);
-        fim = new FileInputMode(sm, clientNum);
+        fim = new FileInputMode(sm, clientNum, address);
         try {
             sm.ObjectOutput((Object) fileStruct);
             System.out.println("ClientNum" + clientNum + ": 파일 구조 송신 완료");

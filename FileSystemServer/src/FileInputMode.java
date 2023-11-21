@@ -8,11 +8,12 @@ public class FileInputMode {
     private File file;
     private boolean wait = true;
     private int clientNum;
-    private String address = "../Files/";
+    private String address;
 
-    public FileInputMode(StreamManager sm, int clientNum) {
+    public FileInputMode(StreamManager sm, int clientNum, String address) {
         this.sm = sm;
         this.clientNum = clientNum;
+        this.address = address;
     }
 
     public void fileInput() {
