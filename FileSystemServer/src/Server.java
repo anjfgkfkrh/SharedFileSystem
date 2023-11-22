@@ -1,7 +1,10 @@
+import java.io.BufferedReader;
+import java.io.DataInputStream;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -32,7 +35,7 @@ public class Server {
                 clientSocket = serverSocket.accept();
                 System.out.println("서버 스레드 생성");
                 executorService.execute((new ServerThread(clientSocket, clientNum, filesStruct)));
-                System.out.println("ClientNum" + clientNum + ": 클라이언트 접속 완료");
+                System.out.println("ClientNum" + clientNum + " 클라이언트 접속 완료");
                 clientNum++;
             }
         } catch (IOException e) {
@@ -51,25 +54,20 @@ class ServerThread extends Thread {
     private FileStructure fileStruct;
     private File file;
     private String address = "./Files/";
-    private FileInputStream fis;
-    private FileOutputStream fos;
+    private InputStream input;
     private ObjectOutputStream oos;
-
-    public static void sendFileStructureObj(ObjectOutputStream oos, FileStructure filesStruct) {
-        try {
-            oos.writeObject(filesStruct);
-            oos.reset();
-        } catch (IOException e) {
-            System.out.println(e);
-        }
-    }
+    private DataInputStream dis;
+    private BufferedReader br;
 
     public ServerThread(Socket socket, int clientNum, FileStructure fileStruct) {
         this.clientNum = clientNum;
         this.socket = socket;
         this.fileStruct = fileStruct;
         try {
+            this.input = socket.getInputStream();
             this.oos = new ObjectOutputStream(socket.getOutputStream());
+            this.dis = new DataInputStream(socket.getInputStream());
+            this.br = new BufferedReader(new InputStreamReader(input));
         } catch (IOException e) {
         }
 
@@ -84,27 +82,111 @@ class ServerThread extends Thread {
 
     @Override
     public void run() {
-        // int mode = 0;
-        // while (true) {
-        // try {
-        // switch (mode) {
-        // case 1:
-        // break;
-        // case 2:
-        // break;
-        // case 3:
-        // break;
-        // case 4:
-        // break;
-        // case 10:
-        // return;
-        // default:
-        // System.out.println("ClientNum" + clientNum + ": 잘못된 입력입니다.");
-        // }
-        // } catch (Exception e) {
-        // System.out.println("ClientNum" + clientNum + ": 비정상 종료");
-        // return;
-        // }
-        // }
+        int mode = 0;
+        while (true) {
+
+            // 버퍼 초기화
+            clearbuffer();
+
+            try {
+
+                // 모드 수신
+                mode = dis.readInt();
+
+                switch (mode) {
+                    case 1:
+                        System.out.println("ClientNum" + clientNum + " 파일 송신 모드");
+                        fileOutputMode();
+                        break;
+                    case 2:
+                        System.out.println("ClientNum" + clientNum + " 파일 수신 모드");
+                        fileInputMode();
+                        break;
+                    case 3:
+                        fileDeleteMode();
+                        break;
+                    case 4:
+                        folderCreateMode();
+                        break;
+                    case 5:
+                        folderDeleteMode();
+                        break;
+                    case 10:
+                        return;
+                }
+            } catch (IOException e) {
+                System.out.println("ClientNum" + clientNum + " 비정상 종료");
+                return;
+            }
+        }
     }
+
+    public void fileInputMode() {
+        try {
+            String filename;
+            filename = br.readLine();
+            System.out.println("ClientNum" + clientNum + " 파일 이름 수신 완료");
+            System.out.println(filename);
+
+            File file = new File(address + filename);
+            FileOutputStream fos = new FileOutputStream(file);
+            byte[] buffer = new byte[4096];
+            int bytesRead = -1;
+
+            while (true) {
+                bytesRead = dis.readInt();
+                dis.readFully(buffer, 0, bytesRead);
+                fos.write(buffer, 0, bytesRead);
+                if (bytesRead < 4096)
+                    break;
+            }
+
+            System.out.println("ClientNum" + clientNum + " 파일 수신 완료");
+
+        } catch (IOException e) {
+            System.out.println(e);
+            System.out.println("ClientNum" + clientNum + " 파일 수신 오류");
+        }
+
+    }
+
+    public void fileOutputMode() {
+
+    }
+
+    public void fileDeleteMode() {
+
+    }
+
+    public void folderCreateMode() {
+
+    }
+
+    public void folderDeleteMode() {
+
+    }
+
+    public void sendFileStructureObj(ObjectOutputStream oos, FileStructure filesStruct) {
+        try {
+            oos.writeObject(filesStruct);
+            oos.reset();
+        } catch (IOException e) {
+            System.out.println(e);
+        }
+    }
+
+    public void clearbuffer() {
+        try {
+            if (input.available() > 0) { // socket input buffer 초기화
+                byte[] trashbuffer = new byte[1024];
+                while (input.available() > 0) {
+                    int bytesRead = input.read(trashbuffer);
+                }
+            }
+            System.out.println("ClientNum" + clientNum + " 남은 버퍼: " + input.available());
+        } catch (IOException e) {
+            System.out.println("버퍼 정리 오류");
+        }
+    }
+
 }

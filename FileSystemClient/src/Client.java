@@ -6,11 +6,11 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.ObjectInputStream;
+import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.net.Socket;
 import java.util.Scanner;
@@ -19,10 +19,10 @@ public class Client {
     private Socket socket;
     private FileStructure fileStruct;
     private Scanner scanner;
+    private InputStream input;
+    private OutputStream output;
     private BufferedInputStream bis;
     private BufferedOutputStream bos;
-    private FileInputStream fis;
-    private FileOutputStream fos;
     private DataInputStream dis;
     private DataOutputStream dos;
     private BufferedReader br;
@@ -38,14 +38,15 @@ public class Client {
 
             // 스트림 생성
             scanner = new Scanner(System.in);
-            dis = new DataInputStream(socket.getInputStream()); // 기본형 데이터 입출력
-            dos = new DataOutputStream(socket.getOutputStream());
-            bis = new BufferedInputStream(socket.getInputStream()); // 데이터 입출력
-            bos = new BufferedOutputStream(socket.getOutputStream());
-            br = new BufferedReader(new InputStreamReader(socket.getInputStream())); // 문자열 입출력
-            bw = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
-            ois = new ObjectInputStream(socket.getInputStream());
-            InputStream input = socket.getInputStream();
+            input = socket.getInputStream();
+            output = socket.getOutputStream();
+            dis = new DataInputStream(input); // 기본형 데이터 입출력
+            dos = new DataOutputStream(output);
+            bis = new BufferedInputStream(input); // 데이터 입출력
+            bos = new BufferedOutputStream(output);
+            br = new BufferedReader(new InputStreamReader(input)); // 문자열 입출력
+            bw = new BufferedWriter(new OutputStreamWriter(output));
+            ois = new ObjectInputStream(input);
 
             // 파일 구조 수신
             fileStruct = (FileStructure) ois.readObject();
@@ -56,23 +57,34 @@ public class Client {
             int mode = 0;
             while (true) {
 
-                claerbuffer(input);
+                clearbuffer();
 
                 System.out.println("모드를 입력하시오");
                 mode = scanner.nextInt();
+                scanner.nextLine();
+
+                dos.writeInt(mode);
+                System.out.println("모드 전송 완료");
 
                 switch (mode) {
                     case 1:
-
+                        System.out.println("파일 전송 모드");
+                        fileInputMode();
                         break;
                     case 2:
+                        fileOutputMode();
                         break;
                     case 3:
+                        fileDeleteMode();
                         break;
                     case 4:
+                        folderCreateMode();
+                        break;
+                    case 5:
+                        folderDeleteMode();
                         break;
                     case 10:
-                        break;
+                        return;
                     default:
                         break;
                 }
@@ -86,7 +98,7 @@ public class Client {
         }
     }
 
-    public void claerbuffer(InputStream input) {
+    public void clearbuffer() {
         try {
             if (input.available() > 0) { // socket input buffer 초기화
                 byte[] trashbuffer = new byte[1024];
@@ -101,6 +113,52 @@ public class Client {
     }
 
     public void fileOutputMode() {
+        String filename;
+        String path;
+        System.out.println("전송할 파일 이름을 입력하시오");
+        filename = scanner.nextLine();
+        // System.out.println("저장할 경로를 입력하시오");
+        // path = scanner.nextLine();
+
+        try {
+
+            // 파일 이름+경로 전송
+            bw.write(filename + '\n');
+            bw.flush();
+
+            File file = new File("./Files/" + filename);
+            FileInputStream fis = new FileInputStream(file);
+
+            byte[] buffer = new byte[4096];
+            int bytesRead = -1;
+
+            while ((bytesRead = fis.read(buffer)) != -1) {
+                dos.writeInt(bytesRead);
+                dos.write(buffer, 0, bytesRead);
+            }
+            output.flush();
+            System.out.println("파일 전송 완료");
+
+        } catch (IOException e) {
+            System.out.println(e);
+            System.out.println("파일 전송 실패");
+        }
+
+    }
+
+    public void fileInputMode() {
+
+    }
+
+    public void fileDeleteMode() {
+
+    }
+
+    public void folderCreateMode() {
+
+    }
+
+    public void folderDeleteMode() {
 
     }
 
