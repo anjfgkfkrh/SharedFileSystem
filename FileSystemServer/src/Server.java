@@ -1,4 +1,3 @@
-import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -15,38 +14,8 @@ public class Server {
     private Socket clientSocket;
     private ExecutorService executorService;
     private Scanner scanner;
-    private String address = "../Files/";
+    private String address = "./Files/";
     private FileStructure filesStruct;
-
-    public static FileStructure saveFileStructure(String address) {
-        FileStructure fileStructure;
-        try {
-            ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("fileStructure.dat"));
-            fileStructure = new FileStructure(address, "Files", 0); // 서버 파일 구조 관리
-            oos.writeObject(fileStructure); // 파일에 FileStructure 객체 저장
-            oos.reset();
-            return fileStructure;
-        } catch (IOException e) {
-            System.out.println("파일 구조 저장 오류");
-            return null;
-        }
-
-    }
-
-    public static void sendFileStructure(Socket socket) {
-        try {
-            DataOutputStream dos = new DataOutputStream(socket.getOutputStream());
-            FileInputStream fis = new FileInputStream("fileStructure.dat");
-            byte[] buffer = new byte[1024];
-            int read;
-            while ((read = fis.read(buffer)) != -1) {
-                dos.write(buffer, 0, read);
-            }
-            dos.flush();
-        } catch (IOException e) {
-            System.out.println("파일 구조 전송 오류");
-        }
-    }
 
     public Server() {
         try {
@@ -55,7 +24,7 @@ public class Server {
             serverSocket = new ServerSocket(5555);
             int clientNum = 0;
 
-            filesStruct = saveFileStructure(address);
+            filesStruct = new FileStructure(address, "Files", 0);
             filesStruct.printDir(); // 서버 파일 구조 출력
 
             while (true) {
@@ -81,39 +50,61 @@ class ServerThread extends Thread {
     private Socket socket;
     private FileStructure fileStruct;
     private File file;
-    private String address = "../Files/";
+    private String address = "./Files/";
     private FileInputStream fis;
     private FileOutputStream fos;
+    private ObjectOutputStream oos;
+
+    public static void sendFileStructureObj(ObjectOutputStream oos, FileStructure filesStruct) {
+        try {
+            oos.writeObject(filesStruct);
+            oos.reset();
+        } catch (IOException e) {
+            System.out.println(e);
+        }
+    }
 
     public ServerThread(Socket socket, int clientNum, FileStructure fileStruct) {
         this.clientNum = clientNum;
         this.socket = socket;
         this.fileStruct = fileStruct;
+        try {
+            this.oos = new ObjectOutputStream(socket.getOutputStream());
+        } catch (IOException e) {
+        }
+
+        fileStruct.refresh();
+        sendFileStructureObj(oos, fileStruct);
+        file = new File(address + "myfile.txt");
+        file.delete();
+        fileStruct.refresh();
+        fileStruct.printDir();
+        sendFileStructureObj(oos, fileStruct);
     }
 
     @Override
     public void run() {
-        int mode = 0;
-        while (true) {
-            try {
-                switch (mode) {
-                    case 1:
-                        break;
-                    case 2:
-                        break;
-                    case 3:
-                        break;
-                    case 4:
-                        break;
-                    case 10:
-                        return;
-                    default:
-                        System.out.println("ClientNum" + clientNum + ": 잘못된 입력입니다.");
-                }
-            } catch (Exception e) {
-                System.out.println("ClientNum" + clientNum + ": 비정상 종료");
-                return;
-            }
-        }
+        // int mode = 0;
+        // while (true) {
+        // try {
+        // switch (mode) {
+        // case 1:
+        // break;
+        // case 2:
+        // break;
+        // case 3:
+        // break;
+        // case 4:
+        // break;
+        // case 10:
+        // return;
+        // default:
+        // System.out.println("ClientNum" + clientNum + ": 잘못된 입력입니다.");
+        // }
+        // } catch (Exception e) {
+        // System.out.println("ClientNum" + clientNum + ": 비정상 종료");
+        // return;
+        // }
+        // }
     }
 }
