@@ -6,6 +6,7 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -68,11 +69,12 @@ public class Client {
 
                 switch (mode) {
                     case 1:
-                        System.out.println("파일 전송 모드");
-                        fileInputMode();
+                        System.out.println("파일 송신 모드");
+                        fileOutputMode();
                         break;
                     case 2:
-                        fileOutputMode();
+                        System.out.println("파일 수신 모드");
+                        fileInputMode();
                         break;
                     case 3:
                         fileDeleteMode();
@@ -82,6 +84,11 @@ public class Client {
                         break;
                     case 5:
                         folderDeleteMode();
+                        break;
+                    case 6:
+                        fileStruct = (FileStructure) ois.readObject();
+                        System.out.println("파일 구조 수신 완료");
+                        fileStruct.printDir();
                         break;
                     case 10:
                         return;
@@ -106,7 +113,7 @@ public class Client {
                     int bytesRead = input.read(trashbuffer);
                 }
             }
-            System.out.println("남은 버퍼:" + input.available());
+            System.out.println("남은 버퍼: " + input.available());
         } catch (IOException e) {
             System.out.println("버퍼 정리 오류");
         }
@@ -147,6 +154,34 @@ public class Client {
     }
 
     public void fileInputMode() {
+        String filename;
+        System.out.println("전송 받을 파일 이름을 입력하시오");
+        filename = scanner.nextLine();
+
+        try {
+
+            // 파일 이름 전송
+            bw.write(filename + '\n');
+            bw.flush();
+
+            // 송신 받을 파일 생성
+            File file = new File("./Files/" + filename);
+            FileOutputStream fos = new FileOutputStream(file);
+            byte[] buffer = new byte[4096];
+            int bytesRead = -1;
+
+            while (true) {
+                bytesRead = dis.readInt();
+                dis.readFully(buffer, 0, bytesRead);
+                fos.write(buffer, 0, bytesRead);
+                if (bytesRead < 4096)
+                    break;
+            }
+            System.out.println("파일 수신 완료");
+        } catch (IOException e) {
+            System.out.println(e);
+            System.out.println("파일 수신 실패");
+        }
 
     }
 

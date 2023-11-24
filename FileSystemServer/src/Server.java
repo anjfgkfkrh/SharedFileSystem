@@ -1,6 +1,8 @@
 import java.io.BufferedReader;
 import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -42,8 +44,6 @@ public class Server {
             System.out.println("서버 생성에 실패했습니다.");
             executorService.shutdown();
         }
-        ;
-
     }
 }
 
@@ -57,6 +57,7 @@ class ServerThread extends Thread {
     private InputStream input;
     private ObjectOutputStream oos;
     private DataInputStream dis;
+    private DataOutputStream dos;
     private BufferedReader br;
 
     public ServerThread(Socket socket, int clientNum, FileStructure fileStruct) {
@@ -66,17 +67,12 @@ class ServerThread extends Thread {
         try {
             this.input = socket.getInputStream();
             this.oos = new ObjectOutputStream(socket.getOutputStream());
-            this.dis = new DataInputStream(socket.getInputStream());
+            this.dis = new DataInputStream(input);
             this.br = new BufferedReader(new InputStreamReader(input));
+            this.dos = new DataOutputStream(socket.getOutputStream());
         } catch (IOException e) {
         }
-
         fileStruct.refresh();
-        sendFileStructureObj(oos, fileStruct);
-        file = new File(address + "myfile.txt");
-        file.delete();
-        fileStruct.refresh();
-        fileStruct.printDir();
         sendFileStructureObj(oos, fileStruct);
     }
 
@@ -87,6 +83,7 @@ class ServerThread extends Thread {
 
             // 버퍼 초기화
             clearbuffer();
+            fileStruct.refresh();
 
             try {
 
@@ -95,12 +92,12 @@ class ServerThread extends Thread {
 
                 switch (mode) {
                     case 1:
-                        System.out.println("ClientNum" + clientNum + " 파일 송신 모드");
-                        fileOutputMode();
-                        break;
-                    case 2:
                         System.out.println("ClientNum" + clientNum + " 파일 수신 모드");
                         fileInputMode();
+                        break;
+                    case 2:
+                        System.out.println("ClientNum" + clientNum + " 파일 송신 모드");
+                        fileOutputMode();
                         break;
                     case 3:
                         fileDeleteMode();
@@ -111,7 +108,11 @@ class ServerThread extends Thread {
                     case 5:
                         folderDeleteMode();
                         break;
+                    case 6:
+                        sendFileStructureObj(oos, fileStruct);
+                        break;
                     case 10:
+                        System.out.println("ClientNum" + clientNum + " 정상 종료");
                         return;
                 }
             } catch (IOException e) {
@@ -151,6 +152,28 @@ class ServerThread extends Thread {
     }
 
     public void fileOutputMode() {
+        try {
+            String filename;
+            filename = br.readLine();
+            System.out.println("ClientNum" + clientNum + " 파일 이름 수신 완료");
+            System.out.println(filename);
+
+            File file = new File(address + filename);
+            FileInputStream fis = new FileInputStream(file);
+            byte[] buffer = new byte[4096];
+            int bytesRead = -1;
+
+            while ((bytesRead = fis.read(buffer)) != -1) {
+                dos.writeInt(bytesRead);
+                dos.write(buffer, 0, bytesRead);
+            }
+            dos.flush();
+            System.out.println("파일 전송 완료");
+
+        } catch (IOException e) {
+            System.out.println(e);
+            System.out.println("ClientNum" + clientNum + " 파일 송신 오류");
+        }
 
     }
 
@@ -185,7 +208,7 @@ class ServerThread extends Thread {
             }
             System.out.println("ClientNum" + clientNum + " 남은 버퍼: " + input.available());
         } catch (IOException e) {
-            System.out.println("버퍼 정리 오류");
+            System.out.println("ClientNum" + clientNum + "버퍼 정리 오류");
         }
     }
 
