@@ -30,7 +30,11 @@ public class Server {
             int clientNum = 0;
 
             filesStruct = new FileStructure(address, "Files", 0);
+            System.out.println();
+            System.out.println("------------------------------");
             filesStruct.printDir(); // 서버 파일 구조 출력
+            System.out.println("------------------------------");
+            System.out.println();
 
             while (true) {
                 System.out.println("접속 대기중.....");
@@ -178,7 +182,20 @@ class ServerThread extends Thread {
     }
 
     public void fileDeleteMode() {
+        String filename;
 
+        try {
+            filename = br.readLine();
+            System.out.println("파일 이름 송신 완료");
+
+            File file = new File(address + filename);
+            file.delete();
+            System.out.println("파일 삭제 완료");
+
+        } catch (IOException e) {
+            System.out.println(e);
+            System.out.println("ClientNum" + clientNum + " 파일 삭제 오류");
+        }
     }
 
     public void folderCreateMode() {

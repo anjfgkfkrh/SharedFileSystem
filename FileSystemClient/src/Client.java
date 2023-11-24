@@ -52,7 +52,11 @@ public class Client {
             // 파일 구조 수신
             fileStruct = (FileStructure) ois.readObject();
             System.out.println("파일 구조 수신 완료");
+            System.out.println();
+            System.out.println("------------------------------");
             fileStruct.printDir();
+            System.out.println("------------------------------");
+            System.out.println();
 
             // 모드 선택
             int mode = 0;
@@ -88,7 +92,11 @@ public class Client {
                     case 6:
                         fileStruct = (FileStructure) ois.readObject();
                         System.out.println("파일 구조 수신 완료");
+                        System.out.println();
+                        System.out.println("------------------------------");
                         fileStruct.printDir();
+                        System.out.println("------------------------------");
+                        System.out.println();
                         break;
                     case 10:
                         return;
@@ -186,6 +194,19 @@ public class Client {
     }
 
     public void fileDeleteMode() {
+        String filename;
+        System.out.println("파일 이름을 입력하시오");
+        filename = scanner.nextLine();
+
+        try {
+            bw.write(filename + '\n');
+            bw.flush();
+            System.out.println("파일 이름 전송 완료");
+
+        } catch (IOException e) {
+            System.out.println(e);
+            System.out.println("파일 삭제 오류");
+        }
 
     }
 
