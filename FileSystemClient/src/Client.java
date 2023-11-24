@@ -81,6 +81,7 @@ public class Client {
                         fileInputMode();
                         break;
                     case 3:
+                        System.out.println("파일 삭제 모드");
                         fileDeleteMode();
                         break;
                     case 4:
@@ -211,11 +212,39 @@ public class Client {
     }
 
     public void folderCreateMode() {
+        String dirName;
 
+        System.out.println("폴더 이름을 입력하시오");
+        dirName = scanner.nextLine();
+
+        try {
+            bw.write(dirName + '\n');
+            bw.flush();
+
+            System.out.println("폴더 정보 전송 완료");
+
+        } catch (IOException e) {
+            System.out.println(e);
+            System.out.println("폴더 생성 오류");
+        }
     }
 
     public void folderDeleteMode() {
+        String dirName;
 
+        System.out.println("폴더 이름을 입력하시오");
+        dirName = scanner.nextLine();
+
+        try {
+            bw.write(dirName + '\n');
+            bw.flush();
+
+            System.out.println("폴더 정보 전송 완료");
+
+        } catch (IOException e) {
+            System.out.println(e);
+            System.out.println("폴더 삭제 오류");
+        }
     }
 
 }

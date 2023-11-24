@@ -87,7 +87,7 @@ class ServerThread extends Thread {
 
             // 버퍼 초기화
             clearbuffer();
-            fileStruct.refresh();
+            fileStruct = new FileStructure(address, "Files", 0);
 
             try {
 
@@ -104,6 +104,7 @@ class ServerThread extends Thread {
                         fileOutputMode();
                         break;
                     case 3:
+                        System.out.println("파일 삭제 모드");
                         fileDeleteMode();
                         break;
                     case 4:
@@ -127,6 +128,10 @@ class ServerThread extends Thread {
     }
 
     public void fileInputMode() {
+        // 1. 파일 이름 수신
+        // 2. 전송받을 버퍼 크기 수신
+        // 3. 버퍼 수신
+        // 4. 전송받은 버퍼 크기가 일정 크기 이하일 때 까지 2,3 반복
         try {
             String filename;
             filename = br.readLine();
@@ -156,6 +161,10 @@ class ServerThread extends Thread {
     }
 
     public void fileOutputMode() {
+        // 1. 파일 이름 수신
+        // 2. 전송할 버퍼 크기 전송
+        // 3. 버퍼 전송
+        // 4. 파일 끝까지 2,3 반복
         try {
             String filename;
             filename = br.readLine();
@@ -182,15 +191,17 @@ class ServerThread extends Thread {
     }
 
     public void fileDeleteMode() {
+        // 1. 파일 이름 수신
+        // 2. 파일 삭제
         String filename;
 
         try {
             filename = br.readLine();
-            System.out.println("파일 이름 송신 완료");
+            System.out.println("ClientNum" + clientNum + "파일 이름 수신 완료");
 
             File file = new File(address + filename);
             file.delete();
-            System.out.println("파일 삭제 완료");
+            System.out.println("ClientNum" + clientNum + "파일 삭제 완료");
 
         } catch (IOException e) {
             System.out.println(e);
@@ -199,14 +210,67 @@ class ServerThread extends Thread {
     }
 
     public void folderCreateMode() {
+        // 1. 폴더 이름 수신
+        // 2. 폴더 생성
+        String dirName;
 
+        try {
+            dirName = br.readLine();
+            System.out.println("ClientNum" + clientNum + "폴더 이름 수신 완료");
+
+            File dir = new File(address + dirName);
+            dir.mkdir();
+            System.out.println("ClientNum" + clientNum + "폴더 생성 완료");
+
+        } catch (IOException e) {
+            System.out.println(e);
+            System.out.println("ClientNum" + clientNum + "폴더 생성 오류");
+        }
     }
 
     public void folderDeleteMode() {
+        // 1. 폴더 이름 수신
+        // 2.폴더 삭제
+        String dirName;
+
+        try {
+            dirName = br.readLine();
+            System.out.println("ClientNum" + clientNum + "폴더 이름 수신 완료");
+
+            File dir = new File(address + dirName);
+            deleteFolder(dir);
+
+            System.out.println("ClientNum" + clientNum + "폴더 삭제 완료");
+
+        } catch (IOException e) {
+            System.out.println(e);
+            System.out.println("ClientNum" + clientNum + "폴더 생성 오류");
+        }
+    }
+
+    private void deleteFolder(File dir) {
+        // 1. 폴더에서 파일 리스트 추출
+        // 2. 폴더가 있을시 재귀 호출
+        // 3. 파일 전부 제거
+        // 4. 폴더 제거
+        File[] files = dir.listFiles();
+
+        // 폴더 안에 파일이 존재할 경우
+        if (files != null && files.length > 0) {
+            for (int i = 0; i < files.length; i++) {
+                // 폴더일 경우
+                if (files[i].isDirectory())
+                    deleteFolder(files[i]);
+                files[i].delete();
+            }
+        }
+
+        // 폴더 삭제
+        dir.delete();
 
     }
 
-    public void sendFileStructureObj(ObjectOutputStream oos, FileStructure filesStruct) {
+    private void sendFileStructureObj(ObjectOutputStream oos, FileStructure filesStruct) {
         try {
             oos.writeObject(filesStruct);
             oos.reset();
@@ -215,7 +279,7 @@ class ServerThread extends Thread {
         }
     }
 
-    public void clearbuffer() {
+    private void clearbuffer() {
         try {
             if (input.available() > 0) { // socket input buffer 초기화
                 byte[] trashbuffer = new byte[1024];
