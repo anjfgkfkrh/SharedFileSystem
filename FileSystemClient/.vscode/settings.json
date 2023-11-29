@@ -1,0 +1,6 @@
+{
+   "java.project.referencedLibraries": [
+      "lib/**/*.jar",
+      "/Users/ljh/Desktop/Javaworkspace/IntelliJ/SharedFileSystem/FileSystemClient/**/*.jar"
+   ]
+}

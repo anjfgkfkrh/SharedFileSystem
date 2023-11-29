@@ -16,9 +16,10 @@ import java.io.OutputStreamWriter;
 import java.net.Socket;
 import java.util.Scanner;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 public class Client {
     private Socket socket;
-    private FileStructure fileStruct;
     private Scanner scanner;
     private InputStream input;
     private OutputStream output;
@@ -29,7 +30,7 @@ public class Client {
     private BufferedReader br;
     private BufferedWriter bw;
     private ObjectInputStream ois;
-    private File file;
+    private FileNode fileNode;
 
     public Client() {
         try {
@@ -47,14 +48,15 @@ public class Client {
             bos = new BufferedOutputStream(output);
             br = new BufferedReader(new InputStreamReader(input)); // 문자열 입출력
             bw = new BufferedWriter(new OutputStreamWriter(output));
-            ois = new ObjectInputStream(input);
+
+            clearbuffer();
 
             // 파일 구조 수신
-            fileStruct = (FileStructure) ois.readObject();
+            receiveFileSturcture();
             System.out.println("파일 구조 수신 완료");
             System.out.println();
             System.out.println("------------------------------");
-            fileStruct.printDir();
+            FilePrinter.print(fileNode);
             System.out.println("------------------------------");
             System.out.println();
 
@@ -91,11 +93,11 @@ public class Client {
                         folderDeleteMode();
                         break;
                     case 6:
-                        fileStruct = (FileStructure) ois.readObject();
+                        receiveFileSturcture();
                         System.out.println("파일 구조 수신 완료");
                         System.out.println();
                         System.out.println("------------------------------");
-                        fileStruct.printDir();
+                        FilePrinter.print(fileNode);
                         System.out.println("------------------------------");
                         System.out.println();
                         break;
@@ -109,8 +111,6 @@ public class Client {
 
         } catch (IOException e) {
             System.out.println("서버 연결 실패");
-        } catch (ClassNotFoundException e) {
-            throw new RuntimeException(e);
         }
     }
 
@@ -244,6 +244,38 @@ public class Client {
         } catch (IOException e) {
             System.out.println(e);
             System.out.println("폴더 삭제 오류");
+        }
+    }
+
+    private void receiveFileSturcture() {
+        try {
+
+            dos.writeInt(1);
+
+            // 송신 받을 파일 생성
+            File file = new File("./FileStructure.json");
+            FileOutputStream fos = new FileOutputStream(file);
+            byte[] buffer = new byte[4096];
+            int bytesRead = -1;
+
+            while (true) {
+                bytesRead = dis.readInt();
+                dis.readFully(buffer, 0, bytesRead);
+                fos.write(buffer, 0, bytesRead);
+                if (bytesRead < 4096) {
+                    break;
+                }
+            }
+
+            ObjectMapper objectMapper = new ObjectMapper();
+            fileNode = objectMapper.readValue(new File("./FileStructure.json"), FileNode.class);
+            // 이제 'fileStructure' 객체를 사용할 수 있습니다.
+            System.out.println("FileNode객체 변환 완료");
+
+            System.out.println("파일 구조 수신 완료");
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.out.println("파일 구조 수신 실패");
         }
     }
 

@@ -10,6 +10,7 @@ import java.io.InputStreamReader;
 import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.nio.file.Paths;
 import java.util.Scanner;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -20,7 +21,7 @@ public class Server {
     private ExecutorService executorService;
     private Scanner scanner;
     private String address = "./Files/";
-    private FileStructure filesStruct;
+    private FileNode fileNode;
 
     public Server() {
         try {
@@ -29,10 +30,13 @@ public class Server {
             serverSocket = new ServerSocket(5555);
             int clientNum = 0;
 
-            filesStruct = new FileStructure(address, "Files", 0);
+            FileStructureSaver fileStructureSaver = new FileStructureSaver();
+            fileNode = fileStructureSaver.createFileNode(new File(address));
+            fileStructureSaver.saveToFile(fileNode, Paths.get("./FileStructure.json"));
+
             System.out.println();
             System.out.println("------------------------------");
-            filesStruct.printDir(); // 서버 파일 구조 출력
+            FilePrinter.print(fileNode);
             System.out.println("------------------------------");
             System.out.println();
 
@@ -40,7 +44,7 @@ public class Server {
                 System.out.println("접속 대기중.....");
                 clientSocket = serverSocket.accept();
                 System.out.println("서버 스레드 생성");
-                executorService.execute((new ServerThread(clientSocket, clientNum, filesStruct)));
+                executorService.execute((new ServerThread(clientSocket, clientNum, fileNode)));
                 System.out.println("ClientNum" + clientNum + " 클라이언트 접속 완료");
                 clientNum++;
             }
@@ -55,19 +59,21 @@ class ServerThread extends Thread {
 
     private int clientNum;
     private Socket socket;
-    private FileStructure fileStruct;
     private File file;
+    private FileNode fileNode;
     private String address = "./Files/";
     private InputStream input;
     private ObjectOutputStream oos;
     private DataInputStream dis;
     private DataOutputStream dos;
     private BufferedReader br;
+    private FileStructureSaver fileStructureSaver;
 
-    public ServerThread(Socket socket, int clientNum, FileStructure fileStruct) {
+    public ServerThread(Socket socket, int clientNum, FileNode fileNode) {
         this.clientNum = clientNum;
         this.socket = socket;
-        this.fileStruct = fileStruct;
+        this.fileNode = fileNode;
+        fileStructureSaver = new FileStructureSaver();
         try {
             this.input = socket.getInputStream();
             this.oos = new ObjectOutputStream(socket.getOutputStream());
@@ -76,20 +82,22 @@ class ServerThread extends Thread {
             this.dos = new DataOutputStream(socket.getOutputStream());
         } catch (IOException e) {
         }
-        fileStruct.refresh();
-        sendFileStructureObj(oos, fileStruct);
+
     }
 
     @Override
     public void run() {
+        sendFileStructure();
         int mode = 0;
         while (true) {
 
             // 버퍼 초기화
             clearbuffer();
-            fileStruct = new FileStructure(address, "Files", 0);
 
             try {
+
+                fileNode = fileStructureSaver.createFileNode(new File(address));
+                fileStructureSaver.saveToFile(fileNode, Paths.get("./FileStructure.json"));
 
                 // 모드 수신
                 mode = dis.readInt();
@@ -114,7 +122,7 @@ class ServerThread extends Thread {
                         folderDeleteMode();
                         break;
                     case 6:
-                        sendFileStructureObj(oos, fileStruct);
+                        sendFileStructure();
                         break;
                     case 10:
                         System.out.println("ClientNum" + clientNum + " 정상 종료");
@@ -127,7 +135,7 @@ class ServerThread extends Thread {
         }
     }
 
-    public void fileInputMode() {
+    private void fileInputMode() {
         // 1. 파일 이름 수신
         // 2. 전송받을 버퍼 크기 수신
         // 3. 버퍼 수신
@@ -160,7 +168,7 @@ class ServerThread extends Thread {
 
     }
 
-    public void fileOutputMode() {
+    private void fileOutputMode() {
         // 1. 파일 이름 수신
         // 2. 전송할 버퍼 크기 전송
         // 3. 버퍼 전송
@@ -190,7 +198,7 @@ class ServerThread extends Thread {
 
     }
 
-    public void fileDeleteMode() {
+    private void fileDeleteMode() {
         // 1. 파일 이름 수신
         // 2. 파일 삭제
         String filename;
@@ -209,7 +217,7 @@ class ServerThread extends Thread {
         }
     }
 
-    public void folderCreateMode() {
+    private void folderCreateMode() {
         // 1. 폴더 이름 수신
         // 2. 폴더 생성
         String dirName;
@@ -228,7 +236,7 @@ class ServerThread extends Thread {
         }
     }
 
-    public void folderDeleteMode() {
+    private void folderDeleteMode() {
         // 1. 폴더 이름 수신
         // 2.폴더 삭제
         String dirName;
@@ -270,12 +278,24 @@ class ServerThread extends Thread {
 
     }
 
-    private void sendFileStructureObj(ObjectOutputStream oos, FileStructure filesStruct) {
+    private void sendFileStructure() {
         try {
-            oos.writeObject(filesStruct);
-            oos.reset();
+            dis.readInt();
+            File file = new File("./FileStructure.json");
+            FileInputStream fis = new FileInputStream(file);
+            byte[] buffer = new byte[4096];
+            int bytesRead = -1;
+
+            while ((bytesRead = fis.read(buffer)) != -1) {
+                dos.writeInt(bytesRead);
+                dos.write(buffer, 0, bytesRead);
+            }
+            dos.flush();
+            System.out.println("파일 구조 전송 완료");
+
         } catch (IOException e) {
             System.out.println(e);
+            System.out.println("ClientNum" + clientNum + " 파일 구조 송신 오류");
         }
     }
 
