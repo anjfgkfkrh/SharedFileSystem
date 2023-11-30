@@ -7,7 +7,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.nio.file.Paths;
@@ -31,7 +30,7 @@ public class Server {
             int clientNum = 0;
 
             FileStructureSaver fileStructureSaver = new FileStructureSaver();
-            fileNode = fileStructureSaver.createFileNode(new File(address));
+            fileNode = fileStructureSaver.createFileNode(new File(address), null);
             fileStructureSaver.saveToFile(fileNode, Paths.get("./FileStructure.json"));
 
             System.out.println();
@@ -59,11 +58,9 @@ class ServerThread extends Thread {
 
     private int clientNum;
     private Socket socket;
-    private File file;
     private FileNode fileNode;
     private String address = "./Files/";
     private InputStream input;
-    private ObjectOutputStream oos;
     private DataInputStream dis;
     private DataOutputStream dos;
     private BufferedReader br;
@@ -76,7 +73,6 @@ class ServerThread extends Thread {
         fileStructureSaver = new FileStructureSaver();
         try {
             this.input = socket.getInputStream();
-            this.oos = new ObjectOutputStream(socket.getOutputStream());
             this.dis = new DataInputStream(input);
             this.br = new BufferedReader(new InputStreamReader(input));
             this.dos = new DataOutputStream(socket.getOutputStream());
@@ -96,7 +92,7 @@ class ServerThread extends Thread {
 
             try {
 
-                fileNode = fileStructureSaver.createFileNode(new File(address));
+                fileNode = fileStructureSaver.createFileNode(new File(address), null);
                 fileStructureSaver.saveToFile(fileNode, Paths.get("./FileStructure.json"));
 
                 // 모드 수신

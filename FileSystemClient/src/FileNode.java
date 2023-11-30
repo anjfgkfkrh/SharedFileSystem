@@ -5,6 +5,7 @@ public class FileNode {
    private String path;
    private boolean directory;
    private List<FileNode> childs;
+   private FileNode parent;
 
    public void setName(String name) {
       this.name = name;

@@ -1,0 +1,73 @@
+{
+   "path": "./Files",
+   "name": "Files",
+   "directory": true,
+   "childs": [
+      {
+         "path": "./Files/다운로드.jfif",
+         "name": "다운로드.jfif",
+         "directory": false,
+         "childs": null,
+         "parent": "./Files"
+      },
+      {
+         "path": "./Files/test",
+         "name": "test",
+         "directory": true,
+         "childs": [],
+         "parent": "./Files"
+      },
+      {
+         "path": "./Files/Chap7-Practice.pptx",
+         "name": "Chap7-Practice.pptx",
+         "directory": false,
+         "childs": null,
+         "parent": "./Files"
+      },
+      {
+         "path": "./Files/myfile.txt",
+         "name": "myfile.txt",
+         "directory": false,
+         "childs": null,
+         "parent": "./Files"
+      },
+      {
+         "path": "./Files/jackson-databind-2.16.0.jar",
+         "name": "jackson-databind-2.16.0.jar",
+         "directory": false,
+         "childs": null,
+         "parent": "./Files"
+      },
+      {
+         "path": "./Files/infiles",
+         "name": "infiles",
+         "directory": true,
+         "childs": [
+            {
+               "path": "./Files/infiles/deep2",
+               "name": "deep2",
+               "directory": true,
+               "childs": [
+                  {
+                     "path": "./Files/infiles/deep2/myfile1.txt",
+                     "name": "myfile1.txt",
+                     "directory": false,
+                     "childs": null,
+                     "parent": "./Files/infiles/deep2"
+                  }
+               ],
+               "parent": "./Files/infiles"
+            },
+            {
+               "path": "./Files/infiles/hello.txt",
+               "name": "hello.txt",
+               "directory": false,
+               "childs": null,
+               "parent": "./Files/infiles"
+            }
+         ],
+         "parent": "./Files"
+      }
+   ],
+   "parent": null
+}

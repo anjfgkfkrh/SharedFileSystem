@@ -248,6 +248,8 @@ public class Client {
     }
 
     private void receiveFileSturcture() {
+        // 1. 파일 구조를 저장한 json 파일 수신
+        // 2. json파일을 FileNode 객체로 변환
         try {
 
             dos.writeInt(1);
@@ -267,9 +269,10 @@ public class Client {
                 }
             }
 
+            // json 파일 객체로 변환
             ObjectMapper objectMapper = new ObjectMapper();
             fileNode = objectMapper.readValue(new File("./FileStructure.json"), FileNode.class);
-            // 이제 'fileStructure' 객체를 사용할 수 있습니다.
+
             System.out.println("FileNode객체 변환 완료");
 
             System.out.println("파일 구조 수신 완료");
