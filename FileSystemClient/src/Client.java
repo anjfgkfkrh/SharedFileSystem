@@ -54,60 +54,55 @@ public class Client {
             // 파일 구조 수신
             receiveFileSturcture();
             System.out.println("파일 구조 수신 완료");
-            System.out.println();
-            System.out.println("------------------------------");
-            FilePrinter.print(fileNode);
-            System.out.println("------------------------------");
-            System.out.println();
 
             // 모드 선택
-            int mode = 0;
-            while (true) {
+            // int mode = 0;
+            // while (true) {
 
-                clearbuffer();
+            // // clearbuffer();
 
-                System.out.println("모드를 입력하시오");
-                mode = scanner.nextInt();
-                scanner.nextLine();
+            // // System.out.println("모드를 입력하시오");
+            // // mode = scanner.nextInt();
+            // // scanner.nextLine();
 
-                dos.writeInt(mode);
-                System.out.println("모드 전송 완료");
+            // // dos.writeInt(mode);
+            // // System.out.println("모드 전송 완료");
 
-                switch (mode) {
-                    case 1:
-                        System.out.println("파일 송신 모드");
-                        fileOutputMode();
-                        break;
-                    case 2:
-                        System.out.println("파일 수신 모드");
-                        fileInputMode();
-                        break;
-                    case 3:
-                        System.out.println("파일 삭제 모드");
-                        fileDeleteMode();
-                        break;
-                    case 4:
-                        folderCreateMode();
-                        break;
-                    case 5:
-                        folderDeleteMode();
-                        break;
-                    case 6:
-                        receiveFileSturcture();
-                        System.out.println("파일 구조 수신 완료");
-                        System.out.println();
-                        System.out.println("------------------------------");
-                        FilePrinter.print(fileNode);
-                        System.out.println("------------------------------");
-                        System.out.println();
-                        break;
-                    case 10:
-                        return;
-                    default:
-                        break;
-                }
+            // // switch (mode) {
+            // // case 1:
+            // // System.out.println("파일 송신 모드");
+            // // fileOutputMode();
+            // // break;
+            // // case 2:
+            // // System.out.println("파일 수신 모드");
+            // // fileInputMode();
+            // // break;
+            // // case 3:
+            // // System.out.println("파일 삭제 모드");
+            // // fileDeleteMode();
+            // // break;
+            // // case 4:
+            // // folderCreateMode();
+            // // break;
+            // // case 5:
+            // // folderDeleteMode();
+            // // break;
+            // // case 6:
+            // // receiveFileSturcture();
+            // // System.out.println("파일 구조 수신 완료");
+            // // System.out.println();
+            // // System.out.println("------------------------------");
+            // // FilePrinter.print(fileNode);
+            // // System.out.println("------------------------------");
+            // // System.out.println();
+            // // break;
+            // // case 10:
+            // // return;
+            // // default:
+            // // break;
+            // // }
 
-            }
+            // }
 
         } catch (IOException e) {
             System.out.println("서버 연결 실패");
@@ -128,21 +123,20 @@ public class Client {
         }
     }
 
-    public void fileOutputMode() {
-        String filename;
-        String path;
-        System.out.println("전송할 파일 이름을 입력하시오");
-        filename = scanner.nextLine();
-        // System.out.println("저장할 경로를 입력하시오");
-        // path = scanner.nextLine();
+    public void fileOutputMode(File file, String path) {
 
         try {
 
+            clearbuffer();
+
+            // 모드 전송
+            dos.writeInt(1);
+            dos.flush();
+
             // 파일 이름+경로 전송
-            bw.write(filename + '\n');
+            bw.write(path + '/' + file.getName() + '\n');
             bw.flush();
 
-            File file = new File("./Files/" + filename);
             FileInputStream fis = new FileInputStream(file);
 
             byte[] buffer = new byte[4096];
@@ -279,6 +273,18 @@ public class Client {
         } catch (IOException e) {
             e.printStackTrace();
             System.out.println("파일 구조 수신 실패");
+        }
+    }
+
+    public void close() {
+        try {
+            if (socket != null && !socket.isClosed()) {
+                dos.writeInt(10);
+                dos.flush();
+                socket.close();
+            }
+        } catch (IOException e) {
+            System.out.println("소켓 종료 중 오류 발생");
         }
     }
 

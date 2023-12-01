@@ -1,46 +1,67 @@
 {
-  "name" : "Files",
   "path" : "./Files",
+  "name" : "Files",
   "directory" : true,
   "childs" : [ {
-    "name" : "다운로드.jfif",
     "path" : "./Files/다운로드.jfif",
+    "name" : "다운로드.jfif",
     "directory" : false,
-    "childs" : null
+    "childs" : null,
+    "parent" : "./Files"
   }, {
-    "name" : "test",
     "path" : "./Files/test",
-    "directory" : true,
-    "childs" : [ ]
-  }, {
-    "name" : "myfile.txt",
-    "path" : "./Files/myfile.txt",
-    "directory" : false,
-    "childs" : null
-  }, {
-    "name" : "jackson-databind-2.16.0.jar",
-    "path" : "./Files/jackson-databind-2.16.0.jar",
-    "directory" : false,
-    "childs" : null
-  }, {
-    "name" : "infiles",
-    "path" : "./Files/infiles",
+    "name" : "test",
     "directory" : true,
     "childs" : [ {
-      "name" : "deep2",
+      "path" : "./Files/test/myfile.txt",
+      "name" : "myfile.txt",
+      "directory" : false,
+      "childs" : null,
+      "parent" : "./Files/test"
+    } ],
+    "parent" : "./Files"
+  }, {
+    "path" : "./Files/Chap7-Practice.pptx",
+    "name" : "Chap7-Practice.pptx",
+    "directory" : false,
+    "childs" : null,
+    "parent" : "./Files"
+  }, {
+    "path" : "./Files/myfile.txt",
+    "name" : "myfile.txt",
+    "directory" : false,
+    "childs" : null,
+    "parent" : "./Files"
+  }, {
+    "path" : "./Files/jackson-databind-2.16.0.jar",
+    "name" : "jackson-databind-2.16.0.jar",
+    "directory" : false,
+    "childs" : null,
+    "parent" : "./Files"
+  }, {
+    "path" : "./Files/infiles",
+    "name" : "infiles",
+    "directory" : true,
+    "childs" : [ {
       "path" : "./Files/infiles/deep2",
+      "name" : "deep2",
       "directory" : true,
       "childs" : [ {
-        "name" : "myfile1.txt",
         "path" : "./Files/infiles/deep2/myfile1.txt",
+        "name" : "myfile1.txt",
         "directory" : false,
-        "childs" : null
-      } ]
+        "childs" : null,
+        "parent" : "./Files/infiles/deep2"
+      } ],
+      "parent" : "./Files/infiles"
     }, {
-      "name" : "hello.txt",
       "path" : "./Files/infiles/hello.txt",
+      "name" : "hello.txt",
       "directory" : false,
-      "childs" : null
-    } ]
-  } ]
+      "childs" : null,
+      "parent" : "./Files/infiles"
+    } ],
+    "parent" : "./Files"
+  } ],
+  "parent" : null
 }

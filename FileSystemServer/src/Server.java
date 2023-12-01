@@ -142,7 +142,7 @@ class ServerThread extends Thread {
             System.out.println("ClientNum" + clientNum + " 파일 이름 수신 완료");
             System.out.println(filename);
 
-            File file = new File(address + filename);
+            File file = new File(filename);
             FileOutputStream fos = new FileOutputStream(file);
             byte[] buffer = new byte[4096];
             int bytesRead = -1;

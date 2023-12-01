@@ -1,5 +1,5 @@
 public class Main {
-    public static void main(String[] args){
-        Client client = new Client();
+    public static void main(String[] args) {
+        ClientGUI clientGUI = new ClientGUI();
     }
 }

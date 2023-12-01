@@ -12,7 +12,13 @@
     "path" : "./Files/test",
     "name" : "test",
     "directory" : true,
-    "childs" : [ ],
+    "childs" : [ {
+      "path" : "./Files/test/myfile.txt",
+      "name" : "myfile.txt",
+      "directory" : false,
+      "childs" : null,
+      "parent" : "./Files/test"
+    } ],
     "parent" : "./Files"
   }, {
     "path" : "./Files/Chap7-Practice.pptx",
