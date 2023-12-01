@@ -6,7 +6,6 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.io.File;
-import java.io.IOException;
 import java.util.List;
 
 import javax.swing.DefaultListCellRenderer;
@@ -23,8 +22,7 @@ import javax.swing.ListCellRenderer;
 import javax.swing.UIManager;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeCellRenderer;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
+import javax.swing.tree.DefaultTreeModel;
 
 public class ClientGUI extends JFrame {
    private FileTree fileTree;
@@ -51,7 +49,7 @@ public class ClientGUI extends JFrame {
       setLayout(null);
 
       // 파일 구조 생성
-      fileNode = jsonToFileNode();
+      fileNode = client.getFileNode();
 
       mainPanel = new MainPanel(fileNode);
       mainPanel.setBounds(200, 0, 600, 530);
@@ -67,26 +65,29 @@ public class ClientGUI extends JFrame {
       setVisible(true);
    }
 
-   private FileNode jsonToFileNode() {
-      try {
-         ObjectMapper objectMapper = new ObjectMapper();
-         FileNode fileNode = objectMapper.readValue(new File("./FileStructure.json"), FileNode.class);
-         return fileNode;
-      } catch (IOException e) {
-         return null;
-      }
-   }
+   // private FileNode jsonToFileNode() {
+   // try {
+   // ObjectMapper objectMapper = new ObjectMapper();
+   // FileNode fileNode = objectMapper.readValue(new File("./FileStructure.json"),
+   // FileNode.class);
+   // return fileNode;
+   // } catch (IOException e) {
+   // return null;
+   // }
+   // }
 
 }
 
 class FileTree extends JScrollPane {
+   private JTree tree;
 
    public FileTree(MainPanel mainPanel, FileNode fileNode) {
 
       // 트리 노드 생성
       DefaultMutableTreeNode rootTreeNode = createTreeNode(fileNode);
       // 트리 생성 및 트리 노드 부착
-      JTree tree = new JTree(rootTreeNode);
+      tree = new JTree(rootTreeNode);
+      // 더블 클릭시 자식들 축소 펼치기 안되게
       tree.setToggleClickCount(0);
 
       // 폴더 아이콘 렌더링
@@ -150,6 +151,17 @@ class FileTree extends JScrollPane {
       return treeNode;
    }
 
+   public void refresh(FileNode fileNode) {
+
+      DefaultMutableTreeNode rootTreeNode = createTreeNode(fileNode);
+
+      DefaultTreeModel model = (DefaultTreeModel) tree.getModel();
+      model.setRoot(rootTreeNode);
+
+      model.reload();
+
+   }
+
 }
 
 class MainPanel extends JScrollPane {
@@ -211,27 +223,33 @@ class MainPanel extends JScrollPane {
       }
    }
 
+   public void refresh(FileNode fileNode) {
+      displayDirectoryContents(fileNode);
+   }
+
    public String getPath() {
       return currentDirectory.getPath();
    }
 }
 
 class ButtonPanel extends JPanel {
-   public JButton upLoad;
-   public JButton downLoad;
-   public JButton delete;
-   public JButton refresh;
-   public JButton setDownloadLocation;
+   private MainPanel mainPanel;
+   private Client client;
+   private FileTree fileTree;
 
    public ButtonPanel(MainPanel mainPanel, Client client, FileTree fileTree) {
 
+      this.mainPanel = mainPanel;
+      this.client = client;
+      this.fileTree = fileTree;
+
       setLayout(null);
 
-      upLoad = new JButton("Upload");
-      downLoad = new JButton("Download");
-      delete = new JButton("Delete");
-      refresh = new JButton("Refresh");
-      setDownloadLocation = new JButton("Download Location");
+      JButton upLoad = new JButton("Upload");
+      JButton downLoad = new JButton("Download");
+      JButton delete = new JButton("Delete");
+      JButton refresh = new JButton("Refresh");
+      JButton setDownloadLocation = new JButton("Download Location");
 
       refresh.setBounds(0, 0, 200, 70);
       upLoad.setBounds(200, 0, 150, 70);
@@ -248,12 +266,11 @@ class ButtonPanel extends JPanel {
             String currentPath = mainPanel.getPath();
 
             client.fileOutputMode(selectedFile, currentPath);
-            // 서버에 파일 경로와 현재 경로를 전송하는 코드 작성
          }
       });
 
       refresh.addActionListener(e -> {
-
+         refresh();
       });
 
       add(refresh);
@@ -261,5 +278,12 @@ class ButtonPanel extends JPanel {
       add(downLoad);
       add(delete);
       add(setDownloadLocation);
+   }
+
+   public void refresh() {
+      client.receiveFileSturcture();
+      fileTree.refresh(client.getFileNode());
+      mainPanel.refresh(client.getFileNode());
+      repaint();
    }
 }

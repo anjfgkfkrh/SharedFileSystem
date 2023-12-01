@@ -276,6 +276,10 @@ class ServerThread extends Thread {
 
     private void sendFileStructure() {
         try {
+
+            fileNode = fileStructureSaver.createFileNode(new File(address), null);
+            fileStructureSaver.saveToFile(fileNode, Paths.get("./FileStructure.json"));
+
             dis.readInt();
             File file = new File("./FileStructure.json");
             FileInputStream fis = new FileInputStream(file);

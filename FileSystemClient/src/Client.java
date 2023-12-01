@@ -53,7 +53,6 @@ public class Client {
 
             // 파일 구조 수신
             receiveFileSturcture();
-            System.out.println("파일 구조 수신 완료");
 
             // 모드 선택
             // int mode = 0;
@@ -241,11 +240,16 @@ public class Client {
         }
     }
 
-    private void receiveFileSturcture() {
+    public void receiveFileSturcture() {
         // 1. 파일 구조를 저장한 json 파일 수신
         // 2. json파일을 FileNode 객체로 변환
         try {
+            clearbuffer();
 
+            // 모드 번호 전송
+            dos.writeInt(6);
+
+            // 준비 완료 전송
             dos.writeInt(1);
 
             // 송신 받을 파일 생성
@@ -274,6 +278,10 @@ public class Client {
             e.printStackTrace();
             System.out.println("파일 구조 수신 실패");
         }
+    }
+
+    public FileNode getFileNode() {
+        return fileNode;
     }
 
     public void close() {
