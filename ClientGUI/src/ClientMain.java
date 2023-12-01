@@ -9,6 +9,7 @@ import java.util.List;
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
@@ -31,6 +32,7 @@ public class ClientMain extends JFrame {
    public ClientMain() {
       setTitle("SharedFileSystem");
       setSize(800, 630);
+      setResizable(false);
       setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
       setLayout(null);
 
@@ -40,9 +42,9 @@ public class ClientMain extends JFrame {
       mainPanel = new MainPanel(fileNode);
       mainPanel.setBounds(200, 0, 600, 530);
       fileTree = new FileTree(mainPanel, fileNode);
-      fileTree.setBounds(0, 0, 200, 600);
-      buttonPanel = new ButtonPanel();
-      buttonPanel.setBounds(200, 530, 600, 70);
+      fileTree.setBounds(0, 0, 200, 530);
+      buttonPanel = new ButtonPanel(mainPanel);
+      buttonPanel.setBounds(0, 530, 800, 70);
 
       add(fileTree);
       add(mainPanel);
@@ -194,27 +196,52 @@ class MainPanel extends JScrollPane {
          listModel.addElement(childNode);
       }
    }
+
+   public String getPath() {
+      return currentDirectory.getPath();
+   }
 }
 
 class ButtonPanel extends JPanel {
    public JButton upLoad;
    public JButton downLoad;
    public JButton delete;
+   public JButton refresh;
+   public JButton setDownloadLocation;
 
-   public ButtonPanel() {
+   public ButtonPanel(MainPanel mainPanel) {
 
       setLayout(null);
 
       upLoad = new JButton("Upload");
       downLoad = new JButton("Download");
       delete = new JButton("Delete");
+      refresh = new JButton("Refresh");
+      setDownloadLocation = new JButton("Download Location");
 
-      upLoad.setBounds(0, 0, 150, 70);
-      downLoad.setBounds(150, 0, 150, 70);
-      delete.setBounds(300, 0, 150, 70);
+      refresh.setBounds(0, 0, 200, 70);
+      upLoad.setBounds(200, 0, 150, 70);
+      downLoad.setBounds(350, 0, 150, 70);
+      delete.setBounds(500, 0, 150, 70);
+      setDownloadLocation.setBounds(650, 0, 150, 70);
 
+      upLoad.addActionListener(e -> {
+         JFileChooser fileChooser = new JFileChooser();
+         fileChooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES); // 파일과 디렉토리 모두 선택 가능하게 설정
+         int returnValue = fileChooser.showOpenDialog(null);
+         if (returnValue == JFileChooser.APPROVE_OPTION) {
+            File selectedFile = fileChooser.getSelectedFile();
+            String selectedFilePath = selectedFile.getAbsolutePath();
+            String currentPath = mainPanel.getPath();
+
+            // 서버에 파일 경로와 현재 경로를 전송하는 코드 작성
+         }
+      });
+
+      add(refresh);
       add(upLoad);
       add(downLoad);
       add(delete);
+      add(setDownloadLocation);
    }
 }
