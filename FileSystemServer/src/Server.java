@@ -137,6 +137,7 @@ class ServerThread extends Thread {
         // 3. 버퍼 수신
         // 4. 전송받은 버퍼 크기가 일정 크기 이하일 때 까지 2,3 반복
         try {
+            int n = 0;
             String filename;
             filename = br.readLine();
             System.out.println("ClientNum" + clientNum + " 파일 이름 수신 완료");
@@ -146,11 +147,20 @@ class ServerThread extends Thread {
             FileOutputStream fos = new FileOutputStream(file);
             byte[] buffer = new byte[4096];
             int bytesRead = -1;
+            System.out.println("ClientNum" + clientNum + " 파일 수신 준비 완료");
+
+            dos.writeInt(100); // 수신 준비 완료 송신
+            dos.flush();
 
             while (true) {
+                System.out.println("ClientNum" + clientNum + " 파일 수신 시작 " + n);
                 bytesRead = dis.readInt();
+                if (bytesRead == 0) {
+                    break;
+                }
                 dis.readFully(buffer, 0, bytesRead);
                 fos.write(buffer, 0, bytesRead);
+                System.out.println("ClientNum" + clientNum + " 파일 수신 " + n++);
                 if (bytesRead < 4096)
                     break;
             }
@@ -175,13 +185,21 @@ class ServerThread extends Thread {
             System.out.println("ClientNum" + clientNum + " 파일 이름 수신 완료");
             System.out.println(filename);
 
-            File file = new File(address + filename);
+            File file = new File(filename);
             FileInputStream fis = new FileInputStream(file);
             byte[] buffer = new byte[4096];
             int bytesRead = -1;
 
-            while ((bytesRead = fis.read(buffer)) != -1) {
+            dis.readInt(); // 파일 송신 준비 완료 수신
+
+            while (true) {
+                bytesRead = fis.read(buffer);
+                if (bytesRead == -1) {
+                    dos.writeInt(0);
+                    break;
+                }
                 dos.writeInt(bytesRead);
+                dos.flush();
                 dos.write(buffer, 0, bytesRead);
             }
             dos.flush();
@@ -202,8 +220,9 @@ class ServerThread extends Thread {
         try {
             filename = br.readLine();
             System.out.println("ClientNum" + clientNum + "파일 이름 수신 완료");
+            System.out.println(filename);
 
-            File file = new File(address + filename);
+            File file = new File(filename);
             file.delete();
             System.out.println("ClientNum" + clientNum + "파일 삭제 완료");
 
@@ -222,7 +241,7 @@ class ServerThread extends Thread {
             dirName = br.readLine();
             System.out.println("ClientNum" + clientNum + "폴더 이름 수신 완료");
 
-            File dir = new File(address + dirName);
+            File dir = new File(dirName);
             dir.mkdir();
             System.out.println("ClientNum" + clientNum + "폴더 생성 완료");
 
@@ -241,7 +260,7 @@ class ServerThread extends Thread {
             dirName = br.readLine();
             System.out.println("ClientNum" + clientNum + "폴더 이름 수신 완료");
 
-            File dir = new File(address + dirName);
+            File dir = new File(dirName);
             deleteFolder(dir);
 
             System.out.println("ClientNum" + clientNum + "폴더 삭제 완료");

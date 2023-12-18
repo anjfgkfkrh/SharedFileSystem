@@ -141,11 +141,19 @@ public class Client {
             byte[] buffer = new byte[4096];
             int bytesRead = -1;
 
-            while ((bytesRead = fis.read(buffer)) != -1) {
-                dos.writeInt(bytesRead);
-                dos.write(buffer, 0, bytesRead);
+            dis.readInt();
+
+            while (true) {
+                bytesRead = fis.read(buffer);
+                if (bytesRead == -1) {
+                    dos.writeInt(0);
+                    break;
+                } else {
+                    dos.writeInt(bytesRead);
+                    dos.write(buffer, 0, bytesRead);
+                }
             }
-            output.flush();
+            dos.flush();
             System.out.println("파일 전송 완료");
 
         } catch (IOException e) {
@@ -155,15 +163,17 @@ public class Client {
 
     }
 
-    public void fileInputMode() {
-        String filename;
-        System.out.println("전송 받을 파일 이름을 입력하시오");
-        filename = scanner.nextLine();
+    public void fileInputMode(String filename, String path) {
 
         try {
 
+            clearbuffer();
+
+            dos.writeInt(2);
+            dos.flush();
+
             // 파일 이름 전송
-            bw.write(filename + '\n');
+            bw.write(path + '/' + filename + '\n');
             bw.flush();
 
             // 송신 받을 파일 생성
@@ -172,8 +182,14 @@ public class Client {
             byte[] buffer = new byte[4096];
             int bytesRead = -1;
 
+            dos.writeInt(100);// 파일 수신 준비 완료 송신
+            dos.flush();
+
             while (true) {
                 bytesRead = dis.readInt();
+                if (bytesRead == 0) {
+                    break;
+                }
                 dis.readFully(buffer, 0, bytesRead);
                 fos.write(buffer, 0, bytesRead);
                 if (bytesRead < 4096)
@@ -187,15 +203,15 @@ public class Client {
 
     }
 
-    public void fileDeleteMode() {
-        String filename;
-        System.out.println("파일 이름을 입력하시오");
-        filename = scanner.nextLine();
-
+    public void fileDeleteMode(String filename, String path) {
         try {
-            bw.write(filename + '\n');
+            // 모드 전송
+            dos.writeInt(3);
+            dos.flush();
+
+            // 파일 이름+경로 전송
+            bw.write(path + '/' + filename + '\n');
             bw.flush();
-            System.out.println("파일 이름 전송 완료");
 
         } catch (IOException e) {
             System.out.println(e);
@@ -204,14 +220,15 @@ public class Client {
 
     }
 
-    public void folderCreateMode() {
-        String dirName;
-
-        System.out.println("폴더 이름을 입력하시오");
-        dirName = scanner.nextLine();
+    public void folderCreateMode(File file, String path) {
 
         try {
-            bw.write(dirName + '\n');
+            // 모드 전송
+            dos.writeInt(4);
+            dos.flush();
+
+            // 파일 이름+경로 전송
+            bw.write(path + '/' + file.getName() + '\n');
             bw.flush();
 
             System.out.println("폴더 정보 전송 완료");
@@ -222,14 +239,14 @@ public class Client {
         }
     }
 
-    public void folderDeleteMode() {
-        String dirName;
-
-        System.out.println("폴더 이름을 입력하시오");
-        dirName = scanner.nextLine();
+    public void folderDeleteMode(File file, String path) {
 
         try {
-            bw.write(dirName + '\n');
+            dos.writeInt(5);
+            dos.flush();
+
+            // 파일 이름+경로 전송
+            bw.write(path + '/' + file.getName() + '\n');
             bw.flush();
 
             System.out.println("폴더 정보 전송 완료");

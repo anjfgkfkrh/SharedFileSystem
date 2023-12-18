@@ -6,6 +6,7 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.DefaultListCellRenderer;
@@ -218,7 +219,22 @@ class MainPanel extends JScrollPane {
          listModel.addElement(new FileNode("..", true, currentDirectory.getParent()));
       }
 
+      List<FileNode> directoryList = new ArrayList<>();
+      List<FileNode> fileList = new ArrayList<>();
+
       for (FileNode childNode : currentDirectory.getChilds()) {
+         if (childNode.isDirectory()) {
+            directoryList.add(childNode);
+         } else {
+            fileList.add(childNode);
+         }
+      }
+
+      for (FileNode childNode : directoryList) {
+         listModel.addElement(childNode);
+      }
+
+      for (FileNode childNode : fileList) {
          listModel.addElement(childNode);
       }
    }
@@ -229,6 +245,10 @@ class MainPanel extends JScrollPane {
 
    public String getPath() {
       return currentDirectory.getPath();
+   }
+
+   public FileNode getSelectedFileNode() {
+      return list.getSelectedValue();
    }
 }
 
@@ -267,6 +287,18 @@ class ButtonPanel extends JPanel {
 
             client.fileOutputMode(selectedFile, currentPath);
          }
+      });
+
+      downLoad.addActionListener(e -> {
+         FileNode file = mainPanel.getSelectedFileNode();
+         String path = mainPanel.getPath();
+         client.fileInputMode(file.getName(), path);
+      });
+
+      delete.addActionListener(e -> {
+         FileNode file = mainPanel.getSelectedFileNode();
+         String path = mainPanel.getPath();
+         client.fileDeleteMode(file.getName(), path);
       });
 
       refresh.addActionListener(e -> {
