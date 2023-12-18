@@ -285,14 +285,22 @@ class ButtonPanel extends JPanel {
             File selectedFile = fileChooser.getSelectedFile();
             String currentPath = mainPanel.getPath();
 
-            client.folderOutputMode(selectedFile, currentPath);
+            if (selectedFile.isDirectory()) {
+               client.folderOutputMode(selectedFile, currentPath);
+            } else {
+               client.fileOutputMode(selectedFile, currentPath);
+            }
          }
       });
 
       downLoad.addActionListener(e -> {
          FileNode file = mainPanel.getSelectedFileNode();
          String path = mainPanel.getPath();
-         client.fileInputMode(file.getName(), path);
+         if (file.isDirectory()) {
+            client.folderInputMode(file, "./Files/");
+         } else {
+            client.fileInputMode(file.getName(), path, "./Files/");
+         }
       });
 
       delete.addActionListener(e -> {

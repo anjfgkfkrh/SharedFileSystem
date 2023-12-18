@@ -14,6 +14,7 @@ import java.io.ObjectInputStream;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.net.Socket;
+import java.util.List;
 import java.util.Scanner;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -53,55 +54,6 @@ public class Client {
 
             // 파일 구조 수신
             receiveFileSturcture();
-
-            // 모드 선택
-            // int mode = 0;
-            // while (true) {
-
-            // // clearbuffer();
-
-            // // System.out.println("모드를 입력하시오");
-            // // mode = scanner.nextInt();
-            // // scanner.nextLine();
-
-            // // dos.writeInt(mode);
-            // // System.out.println("모드 전송 완료");
-
-            // // switch (mode) {
-            // // case 1:
-            // // System.out.println("파일 송신 모드");
-            // // fileOutputMode();
-            // // break;
-            // // case 2:
-            // // System.out.println("파일 수신 모드");
-            // // fileInputMode();
-            // // break;
-            // // case 3:
-            // // System.out.println("파일 삭제 모드");
-            // // fileDeleteMode();
-            // // break;
-            // // case 4:
-            // // folderCreateMode();
-            // // break;
-            // // case 5:
-            // // folderDeleteMode();
-            // // break;
-            // // case 6:
-            // // receiveFileSturcture();
-            // // System.out.println("파일 구조 수신 완료");
-            // // System.out.println();
-            // // System.out.println("------------------------------");
-            // // FilePrinter.print(fileNode);
-            // // System.out.println("------------------------------");
-            // // System.out.println();
-            // // break;
-            // // case 10:
-            // // return;
-            // // default:
-            // // break;
-            // // }
-
-            // }
 
         } catch (IOException e) {
             System.out.println("서버 연결 실패");
@@ -164,7 +116,7 @@ public class Client {
 
     }
 
-    public void fileInputMode(String filename, String path) {
+    public void fileInputMode(String filename, String path, String inPath) {
 
         try {
 
@@ -178,10 +130,17 @@ public class Client {
             bw.flush();
 
             // 송신 받을 파일 생성
-            File file = new File("./Files/" + filename);
+            File file = new File(inPath + '/' + filename);
             FileOutputStream fos = new FileOutputStream(file);
             byte[] buffer = new byte[4096];
             int bytesRead = -1;
+
+            try {
+                Thread.sleep(10);
+            } catch (InterruptedException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
 
             dos.writeInt(100);// 파일 수신 준비 완료 송신
             dos.flush();
@@ -322,6 +281,12 @@ public class Client {
     public void folderOutputMode(File folder, String path) {
         folderCreateMode(folder, path);
         for (File child : folder.listFiles()) {
+            try {
+                Thread.sleep(10);
+            } catch (InterruptedException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
             if (child.isDirectory()) {
                 folderOutputMode(child, path + '/' + folder.getName());
             } else {
@@ -330,7 +295,26 @@ public class Client {
         }
     }
 
-    public void folderInputMode() {
+    public void folderInputMode(FileNode folder, String path) {
+        List<FileNode> childs = folder.getChilds();
+        FileNode child;
 
+        File file = new File(path + folder.getName());
+        file.mkdir();
+
+        for (int i = 0; i < childs.size(); i++) {
+            try {
+                Thread.sleep(10);
+            } catch (InterruptedException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+            child = childs.get(i);
+            if (child.isDirectory()) {
+                folderInputMode(child, file.getPath() + '/');
+            } else {
+                fileInputMode(child.getName(), folder.getPath(), file.getPath());
+            }
+        }
     }
 }

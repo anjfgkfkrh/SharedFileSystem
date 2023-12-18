@@ -3,16 +3,10 @@
   "name" : "Files",
   "directory" : true,
   "childs" : [ {
-    "path" : "./Files/test",
-    "name" : "test",
-    "directory" : true,
-    "childs" : [ {
-      "path" : "./Files/test/myfile.txt",
-      "name" : "myfile.txt",
-      "directory" : false,
-      "childs" : null,
-      "parent" : "./Files/test"
-    } ],
+    "path" : "./Files/4장_디자인_패턴_강의자료.pdf",
+    "name" : "4장_디자인_패턴_강의자료.pdf",
+    "directory" : false,
+    "childs" : null,
     "parent" : "./Files"
   }, {
     "path" : "./Files/12장 마지막 코드 자세한 설명 주석 추가 (1)",
@@ -83,12 +77,6 @@
         "childs" : null,
         "parent" : "./Files/infiles/12장 마지막 코드 자세한 설명 주석 추가 (1)"
       } ],
-      "parent" : "./Files/infiles"
-    }, {
-      "path" : "./Files/infiles/myfile.txt",
-      "name" : "myfile.txt",
-      "directory" : false,
-      "childs" : null,
       "parent" : "./Files/infiles"
     }, {
       "path" : "./Files/infiles/hello.txt",
