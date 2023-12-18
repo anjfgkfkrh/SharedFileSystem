@@ -154,6 +154,7 @@ public class Client {
                 }
             }
             dos.flush();
+            dis.readInt();
             System.out.println("파일 전송 완료");
 
         } catch (IOException e) {
@@ -195,6 +196,10 @@ public class Client {
                 if (bytesRead < 4096)
                     break;
             }
+
+            dos.writeInt(100);
+            dos.flush();
+
             System.out.println("파일 수신 완료");
         } catch (IOException e) {
             System.out.println(e);
@@ -231,6 +236,7 @@ public class Client {
             bw.write(path + '/' + file.getName() + '\n');
             bw.flush();
 
+            dis.readInt();
             System.out.println("폴더 정보 전송 완료");
 
         } catch (IOException e) {
@@ -239,7 +245,7 @@ public class Client {
         }
     }
 
-    public void folderDeleteMode(File file, String path) {
+    public void folderDeleteMode(FileNode file, String path) {
 
         try {
             dos.writeInt(5);
@@ -313,4 +319,18 @@ public class Client {
         }
     }
 
+    public void folderOutputMode(File folder, String path) {
+        folderCreateMode(folder, path);
+        for (File child : folder.listFiles()) {
+            if (child.isDirectory()) {
+                folderOutputMode(child, path + '/' + folder.getName());
+            } else {
+                fileOutputMode(child, path + '/' + folder.getName());
+            }
+        }
+    }
+
+    public void folderInputMode() {
+
+    }
 }

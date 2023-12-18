@@ -15,6 +15,24 @@
     } ],
     "parent" : "./Files"
   }, {
+    "path" : "./Files/12장 마지막 코드 자세한 설명 주석 추가 (1)",
+    "name" : "12장 마지막 코드 자세한 설명 주석 추가 (1)",
+    "directory" : true,
+    "childs" : [ {
+      "path" : "./Files/12장 마지막 코드 자세한 설명 주석 추가 (1)/MessengerMulti.java",
+      "name" : "MessengerMulti.java",
+      "directory" : false,
+      "childs" : null,
+      "parent" : "./Files/12장 마지막 코드 자세한 설명 주석 추가 (1)"
+    }, {
+      "path" : "./Files/12장 마지막 코드 자세한 설명 주석 추가 (1)/ServerM.java",
+      "name" : "ServerM.java",
+      "directory" : false,
+      "childs" : null,
+      "parent" : "./Files/12장 마지막 코드 자세한 설명 주석 추가 (1)"
+    } ],
+    "parent" : "./Files"
+  }, {
     "path" : "./Files/Chap7-Practice.pptx",
     "name" : "Chap7-Practice.pptx",
     "directory" : false,
@@ -39,19 +57,31 @@
     "childs" : null,
     "parent" : "./Files"
   }, {
+    "path" : "./Files/2장.정보시스템구축_DB설계.pdf",
+    "name" : "2장.정보시스템구축_DB설계.pdf",
+    "directory" : false,
+    "childs" : null,
+    "parent" : "./Files"
+  }, {
     "path" : "./Files/infiles",
     "name" : "infiles",
     "directory" : true,
     "childs" : [ {
-      "path" : "./Files/infiles/deep2",
-      "name" : "deep2",
+      "path" : "./Files/infiles/12장 마지막 코드 자세한 설명 주석 추가 (1)",
+      "name" : "12장 마지막 코드 자세한 설명 주석 추가 (1)",
       "directory" : true,
       "childs" : [ {
-        "path" : "./Files/infiles/deep2/1127월 시스템프로그래밍 스레드 코드.txt",
-        "name" : "1127월 시스템프로그래밍 스레드 코드.txt",
+        "path" : "./Files/infiles/12장 마지막 코드 자세한 설명 주석 추가 (1)/MessengerMulti.java",
+        "name" : "MessengerMulti.java",
         "directory" : false,
         "childs" : null,
-        "parent" : "./Files/infiles/deep2"
+        "parent" : "./Files/infiles/12장 마지막 코드 자세한 설명 주석 추가 (1)"
+      }, {
+        "path" : "./Files/infiles/12장 마지막 코드 자세한 설명 주석 추가 (1)/ServerM.java",
+        "name" : "ServerM.java",
+        "directory" : false,
+        "childs" : null,
+        "parent" : "./Files/infiles/12장 마지막 코드 자세한 설명 주석 추가 (1)"
       } ],
       "parent" : "./Files/infiles"
     }, {
@@ -73,12 +103,6 @@
       "childs" : null,
       "parent" : "./Files/infiles"
     } ],
-    "parent" : "./Files"
-  }, {
-    "path" : "./Files/ch4_8.py",
-    "name" : "ch4_8.py",
-    "directory" : false,
-    "childs" : null,
     "parent" : "./Files"
   } ],
   "parent" : null

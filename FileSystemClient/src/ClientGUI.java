@@ -285,7 +285,7 @@ class ButtonPanel extends JPanel {
             File selectedFile = fileChooser.getSelectedFile();
             String currentPath = mainPanel.getPath();
 
-            client.fileOutputMode(selectedFile, currentPath);
+            client.folderOutputMode(selectedFile, currentPath);
          }
       });
 
@@ -298,6 +298,9 @@ class ButtonPanel extends JPanel {
       delete.addActionListener(e -> {
          FileNode file = mainPanel.getSelectedFileNode();
          String path = mainPanel.getPath();
+         if (file.isDirectory()) {
+            client.folderDeleteMode(file, path);
+         }
          client.fileDeleteMode(file.getName(), path);
       });
 

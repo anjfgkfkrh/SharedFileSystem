@@ -165,6 +165,8 @@ class ServerThread extends Thread {
                     break;
             }
 
+            dos.writeInt(100);
+            dos.flush();
             System.out.println("ClientNum" + clientNum + " 파일 수신 완료");
 
         } catch (IOException e) {
@@ -203,6 +205,9 @@ class ServerThread extends Thread {
                 dos.write(buffer, 0, bytesRead);
             }
             dos.flush();
+
+            dis.readInt();
+
             System.out.println("파일 전송 완료");
 
         } catch (IOException e) {
@@ -243,8 +248,10 @@ class ServerThread extends Thread {
 
             File dir = new File(dirName);
             dir.mkdir();
-            System.out.println("ClientNum" + clientNum + "폴더 생성 완료");
 
+            dos.writeInt(100);
+            dos.flush();
+            System.out.println("ClientNum" + clientNum + "폴더 생성 완료");
         } catch (IOException e) {
             System.out.println(e);
             System.out.println("ClientNum" + clientNum + "폴더 생성 오류");
