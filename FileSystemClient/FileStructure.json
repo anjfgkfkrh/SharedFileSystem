@@ -39,12 +39,6 @@
     "childs" : null,
     "parent" : "./Files"
   }, {
-    "path" : "./Files/IMG_2654.HEIC",
-    "name" : "IMG_2654.HEIC",
-    "directory" : false,
-    "childs" : null,
-    "parent" : "./Files"
-  }, {
     "path" : "./Files/jackson-databind-2.16.0.jar",
     "name" : "jackson-databind-2.16.0.jar",
     "directory" : false,
@@ -61,6 +55,12 @@
     "name" : "infiles",
     "directory" : true,
     "childs" : [ {
+      "path" : "./Files/infiles/process.c",
+      "name" : "process.c",
+      "directory" : false,
+      "childs" : null,
+      "parent" : "./Files/infiles"
+    }, {
       "path" : "./Files/infiles/12장 마지막 코드 자세한 설명 주석 추가 (1)",
       "name" : "12장 마지막 코드 자세한 설명 주석 추가 (1)",
       "directory" : true,
