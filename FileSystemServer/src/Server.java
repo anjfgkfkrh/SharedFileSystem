@@ -10,7 +10,6 @@ import java.io.InputStreamReader;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.nio.file.Paths;
-import java.util.Scanner;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -18,13 +17,12 @@ public class Server {
     private ServerSocket serverSocket;
     private Socket clientSocket;
     private ExecutorService executorService;
-    private Scanner scanner;
     private String address = "./Files/";
     private FileNode fileNode;
+    private LogInManager logInManager;
 
     public Server() {
         try {
-            scanner = new Scanner(System.in);
             executorService = Executors.newFixedThreadPool(10); // 스레드 관리 클래스
             serverSocket = new ServerSocket(5555);
             int clientNum = 0;
@@ -32,6 +30,7 @@ public class Server {
             FileStructureSaver fileStructureSaver = new FileStructureSaver();
             fileNode = fileStructureSaver.createFileNode(new File(address), null);
             fileStructureSaver.saveToFile(fileNode, Paths.get("./FileStructure.json"));
+            logInManager = new LogInManager();
 
             System.out.println();
             System.out.println("------------------------------");
@@ -43,7 +42,7 @@ public class Server {
                 System.out.println("접속 대기중.....");
                 clientSocket = serverSocket.accept();
                 System.out.println("서버 스레드 생성");
-                executorService.execute((new ServerThread(clientSocket, clientNum, fileNode)));
+                executorService.execute((new ServerThread(clientSocket, clientNum, fileNode, logInManager)));
                 System.out.println("ClientNum" + clientNum + " 클라이언트 접속 완료");
                 clientNum++;
             }
@@ -65,11 +64,14 @@ class ServerThread extends Thread {
     private DataOutputStream dos;
     private BufferedReader br;
     private FileStructureSaver fileStructureSaver;
+    private LogInManager logInManager;
+    private User user;
 
-    public ServerThread(Socket socket, int clientNum, FileNode fileNode) {
+    public ServerThread(Socket socket, int clientNum, FileNode fileNode, LogInManager logInManager) {
         this.clientNum = clientNum;
         this.socket = socket;
         this.fileNode = fileNode;
+        this.logInManager = logInManager;
         fileStructureSaver = new FileStructureSaver();
         try {
             this.input = socket.getInputStream();
@@ -83,14 +85,54 @@ class ServerThread extends Thread {
 
     @Override
     public void run() {
-        sendFileStructure();
-        int mode = 0;
-        while (true) {
 
-            // 버퍼 초기화
-            clearbuffer();
+        try {
+            int mode;
+            String ID, pass;
+            boolean isSignUp;
+            while (true) {
+                mode = dis.readInt();
+                if (mode == 0) { // 로그인
+                    ID = br.readLine();
+                    pass = br.readLine();
+                    user = logInManager.Login(ID, pass);
+                    if (user != null) {
+                        address = user.getPath();
+                        dos.writeBoolean(true);
+                        dos.flush();
+                        System.out.println("ClientNum" + clientNum + " 로그인 성공");
+                        clearbuffer();
+                        break;
+                    }
+                    dos.writeBoolean(false);
+                    dos.flush();
+                    System.out.println("ClientNum" + clientNum + " 로그인 실패");
+                } else if (mode == 1) { // 회원가입
+                    ID = br.readLine();
+                    pass = br.readLine();
+                    isSignUp = logInManager.signUp(ID, pass);
+                    System.out.println("ClientNum" + clientNum + " 회원가입");
+                    dos.writeBoolean(isSignUp);
+                    dos.flush();
+                } else {
+                    System.out.println("ClientNum" + clientNum + " 로그인 실패로 인한 종료");
+                    return;
+                }
+                clearbuffer();
+            }
+        } catch (IOException e) {
+            System.out.println("ClientNum" + clientNum + " 로그인 중 오류로 인한 종료");
+            return;
+        }
 
-            try {
+        try {
+
+            sendFileStructure();
+            int mode = 0;
+            while (true) {
+
+                // 버퍼 초기화
+                clearbuffer();
 
                 fileNode = fileStructureSaver.createFileNode(new File(address), null);
                 fileStructureSaver.saveToFile(fileNode, Paths.get("./FileStructure.json"));
@@ -124,10 +166,10 @@ class ServerThread extends Thread {
                         System.out.println("ClientNum" + clientNum + " 정상 종료");
                         return;
                 }
-            } catch (IOException e) {
-                System.out.println("ClientNum" + clientNum + " 비정상 종료");
-                return;
             }
+        } catch (IOException e) {
+            System.out.println("ClientNum" + clientNum + " 비정상 종료");
+            return;
         }
     }
 

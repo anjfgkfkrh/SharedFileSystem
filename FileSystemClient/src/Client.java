@@ -1,6 +1,3 @@
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
-import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -9,28 +6,20 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.ObjectInputStream;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.net.Socket;
 import java.util.List;
-import java.util.Scanner;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class Client {
     private Socket socket;
-    private Scanner scanner;
     private InputStream input;
     private OutputStream output;
-    private BufferedInputStream bis;
-    private BufferedOutputStream bos;
     private DataInputStream dis;
     private DataOutputStream dos;
-    private BufferedReader br;
     private BufferedWriter bw;
-    private ObjectInputStream ois;
     private FileNode fileNode;
 
     public Client() {
@@ -40,20 +29,16 @@ public class Client {
             System.out.println("서버 접속 완료");
 
             // 스트림 생성
-            scanner = new Scanner(System.in);
             input = socket.getInputStream();
             output = socket.getOutputStream();
             dis = new DataInputStream(input); // 기본형 데이터 입출력
             dos = new DataOutputStream(output);
-            bis = new BufferedInputStream(input); // 데이터 입출력
-            bos = new BufferedOutputStream(output);
-            br = new BufferedReader(new InputStreamReader(input)); // 문자열 입출력
             bw = new BufferedWriter(new OutputStreamWriter(output));
 
             clearbuffer();
 
             // 파일 구조 수신
-            receiveFileSturcture();
+            // receiveFileSturcture();
 
         } catch (IOException e) {
             System.out.println("서버 연결 실패");
@@ -315,6 +300,34 @@ public class Client {
             } else {
                 fileInputMode(child.getName(), folder.getPath(), file.getPath());
             }
+        }
+    }
+
+    public boolean logIn(String ID, String pass) {
+        try {
+            dos.writeInt(0);
+            bw.write(ID + '\n');
+            bw.write(pass + '\n');
+            bw.flush();
+            return dis.readBoolean();
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public boolean signUp(String ID, String pass) {
+        try {
+            dos.writeInt(1);
+            bw.write(ID + '\n');
+            bw.write(pass + '\n');
+            bw.flush();
+            return dis.readBoolean();
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            return false;
         }
     }
 }

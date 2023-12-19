@@ -1,97 +1,535 @@
 {
-  "path" : "./Files",
-  "name" : "Files",
+  "path" : "./Files/jong",
+  "name" : "jong",
   "directory" : true,
   "childs" : [ {
-    "path" : "./Files/4장_디자인_패턴_강의자료.pdf",
-    "name" : "4장_디자인_패턴_강의자료.pdf",
-    "directory" : false,
-    "childs" : null,
-    "parent" : "./Files"
-  }, {
-    "path" : "./Files/12장 마지막 코드 자세한 설명 주석 추가 (1)",
-    "name" : "12장 마지막 코드 자세한 설명 주석 추가 (1)",
+    "path" : "./Files/jong/Chap5-Model",
+    "name" : "Chap5-Model",
     "directory" : true,
     "childs" : [ {
-      "path" : "./Files/12장 마지막 코드 자세한 설명 주석 추가 (1)/MessengerMulti.java",
-      "name" : "MessengerMulti.java",
+      "path" : "./Files/jong/Chap5-Model/.DS_Store",
+      "name" : ".DS_Store",
       "directory" : false,
       "childs" : null,
-      "parent" : "./Files/12장 마지막 코드 자세한 설명 주석 추가 (1)"
+      "parent" : "./Files/jong/Chap5-Model"
     }, {
-      "path" : "./Files/12장 마지막 코드 자세한 설명 주석 추가 (1)/ServerM.java",
-      "name" : "ServerM.java",
-      "directory" : false,
-      "childs" : null,
-      "parent" : "./Files/12장 마지막 코드 자세한 설명 주석 추가 (1)"
-    } ],
-    "parent" : "./Files"
-  }, {
-    "path" : "./Files/Chap7-Practice.pptx",
-    "name" : "Chap7-Practice.pptx",
-    "directory" : false,
-    "childs" : null,
-    "parent" : "./Files"
-  }, {
-    "path" : "./Files/FileStructure.json",
-    "name" : "FileStructure.json",
-    "directory" : false,
-    "childs" : null,
-    "parent" : "./Files"
-  }, {
-    "path" : "./Files/jackson-databind-2.16.0.jar",
-    "name" : "jackson-databind-2.16.0.jar",
-    "directory" : false,
-    "childs" : null,
-    "parent" : "./Files"
-  }, {
-    "path" : "./Files/2장.정보시스템구축_DB설계.pdf",
-    "name" : "2장.정보시스템구축_DB설계.pdf",
-    "directory" : false,
-    "childs" : null,
-    "parent" : "./Files"
-  }, {
-    "path" : "./Files/infiles",
-    "name" : "infiles",
-    "directory" : true,
-    "childs" : [ {
-      "path" : "./Files/infiles/process.c",
-      "name" : "process.c",
-      "directory" : false,
-      "childs" : null,
-      "parent" : "./Files/infiles"
-    }, {
-      "path" : "./Files/infiles/12장 마지막 코드 자세한 설명 주석 추가 (1)",
-      "name" : "12장 마지막 코드 자세한 설명 주석 추가 (1)",
+      "path" : "./Files/jong/Chap5-Model/Camera",
+      "name" : "Camera",
       "directory" : true,
       "childs" : [ {
-        "path" : "./Files/infiles/12장 마지막 코드 자세한 설명 주석 추가 (1)/MessengerMulti.java",
-        "name" : "MessengerMulti.java",
+        "path" : "./Files/jong/Chap5-Model/Camera/LookAtCamera.cs",
+        "name" : "LookAtCamera.cs",
         "directory" : false,
         "childs" : null,
-        "parent" : "./Files/infiles/12장 마지막 코드 자세한 설명 주석 추가 (1)"
+        "parent" : "./Files/jong/Chap5-Model/Camera"
       }, {
-        "path" : "./Files/infiles/12장 마지막 코드 자세한 설명 주석 추가 (1)/ServerM.java",
-        "name" : "ServerM.java",
+        "path" : "./Files/jong/Chap5-Model/Camera/FollowCamera.cs",
+        "name" : "FollowCamera.cs",
         "directory" : false,
         "childs" : null,
-        "parent" : "./Files/infiles/12장 마지막 코드 자세한 설명 주석 추가 (1)"
+        "parent" : "./Files/jong/Chap5-Model/Camera"
+      }, {
+        "path" : "./Files/jong/Chap5-Model/Camera/MouseAimCamera.cs",
+        "name" : "MouseAimCamera.cs",
+        "directory" : false,
+        "childs" : null,
+        "parent" : "./Files/jong/Chap5-Model/Camera"
+      }, {
+        "path" : "./Files/jong/Chap5-Model/Camera/DungeonCamera.cs",
+        "name" : "DungeonCamera.cs",
+        "directory" : false,
+        "childs" : null,
+        "parent" : "./Files/jong/Chap5-Model/Camera"
       } ],
-      "parent" : "./Files/infiles"
+      "parent" : "./Files/jong/Chap5-Model"
     }, {
-      "path" : "./Files/infiles/hello.txt",
-      "name" : "hello.txt",
-      "directory" : false,
-      "childs" : null,
-      "parent" : "./Files/infiles"
+      "path" : "./Files/jong/Chap5-Model/Floor Textures",
+      "name" : "Floor Textures",
+      "directory" : true,
+      "childs" : [ {
+        "path" : "./Files/jong/Chap5-Model/Floor Textures/Shockwave.png",
+        "name" : "Shockwave.png",
+        "directory" : false,
+        "childs" : null,
+        "parent" : "./Files/jong/Chap5-Model/Floor Textures"
+      }, {
+        "path" : "./Files/jong/Chap5-Model/Floor Textures/Sparkle.png",
+        "name" : "Sparkle.png",
+        "directory" : false,
+        "childs" : null,
+        "parent" : "./Files/jong/Chap5-Model/Floor Textures"
+      }, {
+        "path" : "./Files/jong/Chap5-Model/Floor Textures/Black.png",
+        "name" : "Black.png",
+        "directory" : false,
+        "childs" : null,
+        "parent" : "./Files/jong/Chap5-Model/Floor Textures"
+      }, {
+        "path" : "./Files/jong/Chap5-Model/Floor Textures/Blob.png",
+        "name" : "Blob.png",
+        "directory" : false,
+        "childs" : null,
+        "parent" : "./Files/jong/Chap5-Model/Floor Textures"
+      }, {
+        "path" : "./Files/jong/Chap5-Model/Floor Textures/Board.png",
+        "name" : "Board.png",
+        "directory" : false,
+        "childs" : null,
+        "parent" : "./Files/jong/Chap5-Model/Floor Textures"
+      }, {
+        "path" : "./Files/jong/Chap5-Model/Floor Textures/Smoke.png",
+        "name" : "Smoke.png",
+        "directory" : false,
+        "childs" : null,
+        "parent" : "./Files/jong/Chap5-Model/Floor Textures"
+      }, {
+        "path" : "./Files/jong/Chap5-Model/Floor Textures/README.txt",
+        "name" : "README.txt",
+        "directory" : false,
+        "childs" : null,
+        "parent" : "./Files/jong/Chap5-Model/Floor Textures"
+      }, {
+        "path" : "./Files/jong/Chap5-Model/Floor Textures/Star.png",
+        "name" : "Star.png",
+        "directory" : false,
+        "childs" : null,
+        "parent" : "./Files/jong/Chap5-Model/Floor Textures"
+      }, {
+        "path" : "./Files/jong/Chap5-Model/Floor Textures/Checker2.png",
+        "name" : "Checker2.png",
+        "directory" : false,
+        "childs" : null,
+        "parent" : "./Files/jong/Chap5-Model/Floor Textures"
+      }, {
+        "path" : "./Files/jong/Chap5-Model/Floor Textures/White.png",
+        "name" : "White.png",
+        "directory" : false,
+        "childs" : null,
+        "parent" : "./Files/jong/Chap5-Model/Floor Textures"
+      }, {
+        "path" : "./Files/jong/Chap5-Model/Floor Textures/Checker1.png",
+        "name" : "Checker1.png",
+        "directory" : false,
+        "childs" : null,
+        "parent" : "./Files/jong/Chap5-Model/Floor Textures"
+      } ],
+      "parent" : "./Files/jong/Chap5-Model"
     }, {
-      "path" : "./Files/infiles/1장_db개요.pdf",
-      "name" : "1장_db개요.pdf",
-      "directory" : false,
-      "childs" : null,
-      "parent" : "./Files/infiles"
+      "path" : "./Files/jong/Chap5-Model/Character Model",
+      "name" : "Character Model",
+      "directory" : true,
+      "childs" : [ {
+        "path" : "./Files/jong/Chap5-Model/Character Model/Textures",
+        "name" : "Textures",
+        "directory" : true,
+        "childs" : [ {
+          "path" : "./Files/jong/Chap5-Model/Character Model/Textures/free_male_1_head_diffuse.psd.meta",
+          "name" : "free_male_1_head_diffuse.psd.meta",
+          "directory" : false,
+          "childs" : null,
+          "parent" : "./Files/jong/Chap5-Model/Character Model/Textures"
+        }, {
+          "path" : "./Files/jong/Chap5-Model/Character Model/Textures/free_male_1_body_diffuse.psd.meta",
+          "name" : "free_male_1_body_diffuse.psd.meta",
+          "directory" : false,
+          "childs" : null,
+          "parent" : "./Files/jong/Chap5-Model/Character Model/Textures"
+        }, {
+          "path" : "./Files/jong/Chap5-Model/Character Model/Textures/free_male_1_head_diffuse.psd",
+          "name" : "free_male_1_head_diffuse.psd",
+          "directory" : false,
+          "childs" : null,
+          "parent" : "./Files/jong/Chap5-Model/Character Model/Textures"
+        }, {
+          "path" : "./Files/jong/Chap5-Model/Character Model/Textures/free_male_1_body_diffuse.psd",
+          "name" : "free_male_1_body_diffuse.psd",
+          "directory" : false,
+          "childs" : null,
+          "parent" : "./Files/jong/Chap5-Model/Character Model/Textures"
+        } ],
+        "parent" : "./Files/jong/Chap5-Model/Character Model"
+      }, {
+        "path" : "./Files/jong/Chap5-Model/Character Model/Materials",
+        "name" : "Materials",
+        "directory" : true,
+        "childs" : [ {
+          "path" : "./Files/jong/Chap5-Model/Character Model/Materials/High Quality.meta",
+          "name" : "High Quality.meta",
+          "directory" : false,
+          "childs" : null,
+          "parent" : "./Files/jong/Chap5-Model/Character Model/Materials"
+        }, {
+          "path" : "./Files/jong/Chap5-Model/Character Model/Materials/Mobile.meta",
+          "name" : "Mobile.meta",
+          "directory" : false,
+          "childs" : null,
+          "parent" : "./Files/jong/Chap5-Model/Character Model/Materials"
+        }, {
+          "path" : "./Files/jong/Chap5-Model/Character Model/Materials/Mobile",
+          "name" : "Mobile",
+          "directory" : true,
+          "childs" : [ {
+            "path" : "./Files/jong/Chap5-Model/Character Model/Materials/Mobile/free_male_1_body_low.mat.meta",
+            "name" : "free_male_1_body_low.mat.meta",
+            "directory" : false,
+            "childs" : null,
+            "parent" : "./Files/jong/Chap5-Model/Character Model/Materials/Mobile"
+          }, {
+            "path" : "./Files/jong/Chap5-Model/Character Model/Materials/Mobile/free_male_1_head_low.mat",
+            "name" : "free_male_1_head_low.mat",
+            "directory" : false,
+            "childs" : null,
+            "parent" : "./Files/jong/Chap5-Model/Character Model/Materials/Mobile"
+          }, {
+            "path" : "./Files/jong/Chap5-Model/Character Model/Materials/Mobile/free_male_1_head_low.mat.meta",
+            "name" : "free_male_1_head_low.mat.meta",
+            "directory" : false,
+            "childs" : null,
+            "parent" : "./Files/jong/Chap5-Model/Character Model/Materials/Mobile"
+          }, {
+            "path" : "./Files/jong/Chap5-Model/Character Model/Materials/Mobile/free_male_1_body_low.mat",
+            "name" : "free_male_1_body_low.mat",
+            "directory" : false,
+            "childs" : null,
+            "parent" : "./Files/jong/Chap5-Model/Character Model/Materials/Mobile"
+          } ],
+          "parent" : "./Files/jong/Chap5-Model/Character Model/Materials"
+        }, {
+          "path" : "./Files/jong/Chap5-Model/Character Model/Materials/High Quality",
+          "name" : "High Quality",
+          "directory" : true,
+          "childs" : [ {
+            "path" : "./Files/jong/Chap5-Model/Character Model/Materials/High Quality/free_male_1_body.mat.meta",
+            "name" : "free_male_1_body.mat.meta",
+            "directory" : false,
+            "childs" : null,
+            "parent" : "./Files/jong/Chap5-Model/Character Model/Materials/High Quality"
+          }, {
+            "path" : "./Files/jong/Chap5-Model/Character Model/Materials/High Quality/free_male_1_body.mat",
+            "name" : "free_male_1_body.mat",
+            "directory" : false,
+            "childs" : null,
+            "parent" : "./Files/jong/Chap5-Model/Character Model/Materials/High Quality"
+          }, {
+            "path" : "./Files/jong/Chap5-Model/Character Model/Materials/High Quality/free_male_1_head.mat.meta",
+            "name" : "free_male_1_head.mat.meta",
+            "directory" : false,
+            "childs" : null,
+            "parent" : "./Files/jong/Chap5-Model/Character Model/Materials/High Quality"
+          }, {
+            "path" : "./Files/jong/Chap5-Model/Character Model/Materials/High Quality/free_male_1_head.mat",
+            "name" : "free_male_1_head.mat",
+            "directory" : false,
+            "childs" : null,
+            "parent" : "./Files/jong/Chap5-Model/Character Model/Materials/High Quality"
+          } ],
+          "parent" : "./Files/jong/Chap5-Model/Character Model/Materials"
+        } ],
+        "parent" : "./Files/jong/Chap5-Model/Character Model"
+      }, {
+        "path" : "./Files/jong/Chap5-Model/Character Model/Prefabs",
+        "name" : "Prefabs",
+        "directory" : true,
+        "childs" : [ {
+          "path" : "./Files/jong/Chap5-Model/Character Model/Prefabs/Simple Movement.meta",
+          "name" : "Simple Movement.meta",
+          "directory" : false,
+          "childs" : null,
+          "parent" : "./Files/jong/Chap5-Model/Character Model/Prefabs"
+        }, {
+          "path" : "./Files/jong/Chap5-Model/Character Model/Prefabs/Base.meta",
+          "name" : "Base.meta",
+          "directory" : false,
+          "childs" : null,
+          "parent" : "./Files/jong/Chap5-Model/Character Model/Prefabs"
+        }, {
+          "path" : "./Files/jong/Chap5-Model/Character Model/Prefabs/Simple Movement",
+          "name" : "Simple Movement",
+          "directory" : true,
+          "childs" : [ {
+            "path" : "./Files/jong/Chap5-Model/Character Model/Prefabs/Simple Movement/High Quality.meta",
+            "name" : "High Quality.meta",
+            "directory" : false,
+            "childs" : null,
+            "parent" : "./Files/jong/Chap5-Model/Character Model/Prefabs/Simple Movement"
+          }, {
+            "path" : "./Files/jong/Chap5-Model/Character Model/Prefabs/Simple Movement/Mobile.meta",
+            "name" : "Mobile.meta",
+            "directory" : false,
+            "childs" : null,
+            "parent" : "./Files/jong/Chap5-Model/Character Model/Prefabs/Simple Movement"
+          }, {
+            "path" : "./Files/jong/Chap5-Model/Character Model/Prefabs/Simple Movement/Mobile",
+            "name" : "Mobile",
+            "directory" : true,
+            "childs" : [ {
+              "path" : "./Files/jong/Chap5-Model/Character Model/Prefabs/Simple Movement/Mobile/MobileMaleFreeSimpleMovement1.prefab",
+              "name" : "MobileMaleFreeSimpleMovement1.prefab",
+              "directory" : false,
+              "childs" : null,
+              "parent" : "./Files/jong/Chap5-Model/Character Model/Prefabs/Simple Movement/Mobile"
+            }, {
+              "path" : "./Files/jong/Chap5-Model/Character Model/Prefabs/Simple Movement/Mobile/MobileMaleFreeSimpleMovement1.prefab.meta",
+              "name" : "MobileMaleFreeSimpleMovement1.prefab.meta",
+              "directory" : false,
+              "childs" : null,
+              "parent" : "./Files/jong/Chap5-Model/Character Model/Prefabs/Simple Movement/Mobile"
+            } ],
+            "parent" : "./Files/jong/Chap5-Model/Character Model/Prefabs/Simple Movement"
+          }, {
+            "path" : "./Files/jong/Chap5-Model/Character Model/Prefabs/Simple Movement/High Quality",
+            "name" : "High Quality",
+            "directory" : true,
+            "childs" : [ {
+              "path" : "./Files/jong/Chap5-Model/Character Model/Prefabs/Simple Movement/High Quality/MaleFreeSimpleMovement1.prefab.meta",
+              "name" : "MaleFreeSimpleMovement1.prefab.meta",
+              "directory" : false,
+              "childs" : null,
+              "parent" : "./Files/jong/Chap5-Model/Character Model/Prefabs/Simple Movement/High Quality"
+            }, {
+              "path" : "./Files/jong/Chap5-Model/Character Model/Prefabs/Simple Movement/High Quality/MaleFreeSimpleMovement1.prefab",
+              "name" : "MaleFreeSimpleMovement1.prefab",
+              "directory" : false,
+              "childs" : null,
+              "parent" : "./Files/jong/Chap5-Model/Character Model/Prefabs/Simple Movement/High Quality"
+            } ],
+            "parent" : "./Files/jong/Chap5-Model/Character Model/Prefabs/Simple Movement"
+          } ],
+          "parent" : "./Files/jong/Chap5-Model/Character Model/Prefabs"
+        }, {
+          "path" : "./Files/jong/Chap5-Model/Character Model/Prefabs/Base",
+          "name" : "Base",
+          "directory" : true,
+          "childs" : [ {
+            "path" : "./Files/jong/Chap5-Model/Character Model/Prefabs/Base/High Quality.meta",
+            "name" : "High Quality.meta",
+            "directory" : false,
+            "childs" : null,
+            "parent" : "./Files/jong/Chap5-Model/Character Model/Prefabs/Base"
+          }, {
+            "path" : "./Files/jong/Chap5-Model/Character Model/Prefabs/Base/Mobile.meta",
+            "name" : "Mobile.meta",
+            "directory" : false,
+            "childs" : null,
+            "parent" : "./Files/jong/Chap5-Model/Character Model/Prefabs/Base"
+          }, {
+            "path" : "./Files/jong/Chap5-Model/Character Model/Prefabs/Base/Mobile",
+            "name" : "Mobile",
+            "directory" : true,
+            "childs" : [ {
+              "path" : "./Files/jong/Chap5-Model/Character Model/Prefabs/Base/Mobile/MobileMaleFree1.prefab.meta",
+              "name" : "MobileMaleFree1.prefab.meta",
+              "directory" : false,
+              "childs" : null,
+              "parent" : "./Files/jong/Chap5-Model/Character Model/Prefabs/Base/Mobile"
+            }, {
+              "path" : "./Files/jong/Chap5-Model/Character Model/Prefabs/Base/Mobile/MobileMaleFree1.prefab",
+              "name" : "MobileMaleFree1.prefab",
+              "directory" : false,
+              "childs" : null,
+              "parent" : "./Files/jong/Chap5-Model/Character Model/Prefabs/Base/Mobile"
+            } ],
+            "parent" : "./Files/jong/Chap5-Model/Character Model/Prefabs/Base"
+          }, {
+            "path" : "./Files/jong/Chap5-Model/Character Model/Prefabs/Base/High Quality",
+            "name" : "High Quality",
+            "directory" : true,
+            "childs" : [ {
+              "path" : "./Files/jong/Chap5-Model/Character Model/Prefabs/Base/High Quality/MaleFree1.prefab.meta",
+              "name" : "MaleFree1.prefab.meta",
+              "directory" : false,
+              "childs" : null,
+              "parent" : "./Files/jong/Chap5-Model/Character Model/Prefabs/Base/High Quality"
+            }, {
+              "path" : "./Files/jong/Chap5-Model/Character Model/Prefabs/Base/High Quality/MaleFree1.prefab",
+              "name" : "MaleFree1.prefab",
+              "directory" : false,
+              "childs" : null,
+              "parent" : "./Files/jong/Chap5-Model/Character Model/Prefabs/Base/High Quality"
+            } ],
+            "parent" : "./Files/jong/Chap5-Model/Character Model/Prefabs/Base"
+          } ],
+          "parent" : "./Files/jong/Chap5-Model/Character Model/Prefabs"
+        } ],
+        "parent" : "./Files/jong/Chap5-Model/Character Model"
+      }, {
+        "path" : "./Files/jong/Chap5-Model/Character Model/Models",
+        "name" : "Models",
+        "directory" : true,
+        "childs" : [ {
+          "path" : "./Files/jong/Chap5-Model/Character Model/Models/free_male_1.FBX.meta",
+          "name" : "free_male_1.FBX.meta",
+          "directory" : false,
+          "childs" : null,
+          "parent" : "./Files/jong/Chap5-Model/Character Model/Models"
+        }, {
+          "path" : "./Files/jong/Chap5-Model/Character Model/Models/free_male_1.FBX",
+          "name" : "free_male_1.FBX",
+          "directory" : false,
+          "childs" : null,
+          "parent" : "./Files/jong/Chap5-Model/Character Model/Models"
+        } ],
+        "parent" : "./Files/jong/Chap5-Model/Character Model"
+      }, {
+        "path" : "./Files/jong/Chap5-Model/Character Model/AnimatorControllers",
+        "name" : "AnimatorControllers",
+        "directory" : true,
+        "childs" : [ {
+          "path" : "./Files/jong/Chap5-Model/Character Model/AnimatorControllers/SimpleAnimations.controller.meta",
+          "name" : "SimpleAnimations.controller.meta",
+          "directory" : false,
+          "childs" : null,
+          "parent" : "./Files/jong/Chap5-Model/Character Model/AnimatorControllers"
+        }, {
+          "path" : "./Files/jong/Chap5-Model/Character Model/AnimatorControllers/SimpleAnimations.controller",
+          "name" : "SimpleAnimations.controller",
+          "directory" : false,
+          "childs" : null,
+          "parent" : "./Files/jong/Chap5-Model/Character Model/AnimatorControllers"
+        } ],
+        "parent" : "./Files/jong/Chap5-Model/Character Model"
+      }, {
+        "path" : "./Files/jong/Chap5-Model/Character Model/Animations",
+        "name" : "Animations",
+        "directory" : true,
+        "childs" : [ {
+          "path" : "./Files/jong/Chap5-Model/Character Model/Animations/common_people@walk.FBX",
+          "name" : "common_people@walk.FBX",
+          "directory" : false,
+          "childs" : null,
+          "parent" : "./Files/jong/Chap5-Model/Character Model/Animations"
+        }, {
+          "path" : "./Files/jong/Chap5-Model/Character Model/Animations/common_people@jump-float.FBX",
+          "name" : "common_people@jump-float.FBX",
+          "directory" : false,
+          "childs" : null,
+          "parent" : "./Files/jong/Chap5-Model/Character Model/Animations"
+        }, {
+          "path" : "./Files/jong/Chap5-Model/Character Model/Animations/common_people@wave.FBX",
+          "name" : "common_people@wave.FBX",
+          "directory" : false,
+          "childs" : null,
+          "parent" : "./Files/jong/Chap5-Model/Character Model/Animations"
+        }, {
+          "path" : "./Files/jong/Chap5-Model/Character Model/Animations/common_people@idle.FBX.meta",
+          "name" : "common_people@idle.FBX.meta",
+          "directory" : false,
+          "childs" : null,
+          "parent" : "./Files/jong/Chap5-Model/Character Model/Animations"
+        }, {
+          "path" : "./Files/jong/Chap5-Model/Character Model/Animations/common_people@wave.FBX.meta",
+          "name" : "common_people@wave.FBX.meta",
+          "directory" : false,
+          "childs" : null,
+          "parent" : "./Files/jong/Chap5-Model/Character Model/Animations"
+        }, {
+          "path" : "./Files/jong/Chap5-Model/Character Model/Animations/common_people@mpose.FBX",
+          "name" : "common_people@mpose.FBX",
+          "directory" : false,
+          "childs" : null,
+          "parent" : "./Files/jong/Chap5-Model/Character Model/Animations"
+        }, {
+          "path" : "./Files/jong/Chap5-Model/Character Model/Animations/common_people@run.FBX.meta",
+          "name" : "common_people@run.FBX.meta",
+          "directory" : false,
+          "childs" : null,
+          "parent" : "./Files/jong/Chap5-Model/Character Model/Animations"
+        }, {
+          "path" : "./Files/jong/Chap5-Model/Character Model/Animations/common_people@jump-down.FBX",
+          "name" : "common_people@jump-down.FBX",
+          "directory" : false,
+          "childs" : null,
+          "parent" : "./Files/jong/Chap5-Model/Character Model/Animations"
+        }, {
+          "path" : "./Files/jong/Chap5-Model/Character Model/Animations/common_people@walk.FBX.meta",
+          "name" : "common_people@walk.FBX.meta",
+          "directory" : false,
+          "childs" : null,
+          "parent" : "./Files/jong/Chap5-Model/Character Model/Animations"
+        }, {
+          "path" : "./Files/jong/Chap5-Model/Character Model/Animations/common_people@backwards-walk.FBX",
+          "name" : "common_people@backwards-walk.FBX",
+          "directory" : false,
+          "childs" : null,
+          "parent" : "./Files/jong/Chap5-Model/Character Model/Animations"
+        }, {
+          "path" : "./Files/jong/Chap5-Model/Character Model/Animations/common_people@jump-up.FBX",
+          "name" : "common_people@jump-up.FBX",
+          "directory" : false,
+          "childs" : null,
+          "parent" : "./Files/jong/Chap5-Model/Character Model/Animations"
+        }, {
+          "path" : "./Files/jong/Chap5-Model/Character Model/Animations/common_people@backwards-run.FBX.meta",
+          "name" : "common_people@backwards-run.FBX.meta",
+          "directory" : false,
+          "childs" : null,
+          "parent" : "./Files/jong/Chap5-Model/Character Model/Animations"
+        }, {
+          "path" : "./Files/jong/Chap5-Model/Character Model/Animations/common_people@jump-up.FBX.meta",
+          "name" : "common_people@jump-up.FBX.meta",
+          "directory" : false,
+          "childs" : null,
+          "parent" : "./Files/jong/Chap5-Model/Character Model/Animations"
+        }, {
+          "path" : "./Files/jong/Chap5-Model/Character Model/Animations/common_people@pickup.FBX",
+          "name" : "common_people@pickup.FBX",
+          "directory" : false,
+          "childs" : null,
+          "parent" : "./Files/jong/Chap5-Model/Character Model/Animations"
+        }, {
+          "path" : "./Files/jong/Chap5-Model/Character Model/Animations/common_people@backwards-walk.FBX.meta",
+          "name" : "common_people@backwards-walk.FBX.meta",
+          "directory" : false,
+          "childs" : null,
+          "parent" : "./Files/jong/Chap5-Model/Character Model/Animations"
+        }, {
+          "path" : "./Files/jong/Chap5-Model/Character Model/Animations/common_people@idle.FBX",
+          "name" : "common_people@idle.FBX",
+          "directory" : false,
+          "childs" : null,
+          "parent" : "./Files/jong/Chap5-Model/Character Model/Animations"
+        }, {
+          "path" : "./Files/jong/Chap5-Model/Character Model/Animations/common_people@pickup.FBX.meta",
+          "name" : "common_people@pickup.FBX.meta",
+          "directory" : false,
+          "childs" : null,
+          "parent" : "./Files/jong/Chap5-Model/Character Model/Animations"
+        }, {
+          "path" : "./Files/jong/Chap5-Model/Character Model/Animations/common_people@jump-down.FBX.meta",
+          "name" : "common_people@jump-down.FBX.meta",
+          "directory" : false,
+          "childs" : null,
+          "parent" : "./Files/jong/Chap5-Model/Character Model/Animations"
+        }, {
+          "path" : "./Files/jong/Chap5-Model/Character Model/Animations/common_people@mpose.FBX.meta",
+          "name" : "common_people@mpose.FBX.meta",
+          "directory" : false,
+          "childs" : null,
+          "parent" : "./Files/jong/Chap5-Model/Character Model/Animations"
+        }, {
+          "path" : "./Files/jong/Chap5-Model/Character Model/Animations/common_people@run.FBX",
+          "name" : "common_people@run.FBX",
+          "directory" : false,
+          "childs" : null,
+          "parent" : "./Files/jong/Chap5-Model/Character Model/Animations"
+        }, {
+          "path" : "./Files/jong/Chap5-Model/Character Model/Animations/common_people@backwards-run.FBX",
+          "name" : "common_people@backwards-run.FBX",
+          "directory" : false,
+          "childs" : null,
+          "parent" : "./Files/jong/Chap5-Model/Character Model/Animations"
+        }, {
+          "path" : "./Files/jong/Chap5-Model/Character Model/Animations/common_people@jump-float.FBX.meta",
+          "name" : "common_people@jump-float.FBX.meta",
+          "directory" : false,
+          "childs" : null,
+          "parent" : "./Files/jong/Chap5-Model/Character Model/Animations"
+        } ],
+        "parent" : "./Files/jong/Chap5-Model/Character Model"
+      } ],
+      "parent" : "./Files/jong/Chap5-Model"
     } ],
-    "parent" : "./Files"
+    "parent" : "./Files/jong"
   } ],
   "parent" : null
 }

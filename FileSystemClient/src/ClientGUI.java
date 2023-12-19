@@ -32,9 +32,10 @@ public class ClientGUI extends JFrame {
    private FileNode fileNode;
    private Client client;
 
-   public ClientGUI() {
+   public ClientGUI(Client client) {
 
-      client = new Client();
+      this.client = client;
+      client.receiveFileSturcture();
 
       addWindowListener((WindowListener) new WindowAdapter() {
          @Override
@@ -65,17 +66,6 @@ public class ClientGUI extends JFrame {
 
       setVisible(true);
    }
-
-   // private FileNode jsonToFileNode() {
-   // try {
-   // ObjectMapper objectMapper = new ObjectMapper();
-   // FileNode fileNode = objectMapper.readValue(new File("./FileStructure.json"),
-   // FileNode.class);
-   // return fileNode;
-   // } catch (IOException e) {
-   // return null;
-   // }
-   // }
 
 }
 
